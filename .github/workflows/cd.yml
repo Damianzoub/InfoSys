@@ -1,0 +1,30 @@
+name: CD
+
+on: 
+    push:
+        branches: [main]
+
+jobs:
+    build-release-artifacts:
+        name: Build Release Artifacts
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: Checkout repository
+              uses: actions/checkout@v4
+            
+            - name: Validate docker compose
+              run: docker compose config
+            
+            - name: Build backend image
+              run: |
+                if [ -f backend/Dockerfile ]; then
+                    docker build -t pet-adoption-backend:latest ./backend
+                else
+                    echo "No backend/Dockerfile found"
+                fi
+            
+            - name: Delivery note
+              run: |
+                echo "Build completed successfully"
+                echo "This workflow prepares the projec for deployment"
