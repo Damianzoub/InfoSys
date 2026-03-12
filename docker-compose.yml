@@ -1,0 +1,66 @@
+# version: "3.9"
+
+# services:
+#   backend:
+#     build:
+#       context: ./backend
+#       dockerfile: Dockerfile
+#     container_name: pet_adoption_backend
+#     restart: unless-stopped
+#     ports:
+#       - "8000:8000"
+#     environment:
+#       # Example backend environment variables
+#       # Choose ONE database strategy depending on your final implementation.
+#       #
+#       # For PostgreSQL:
+#       # DATABASE_URL: postgresql://postgres:postgres@postgres:5432/pet_adoption_db
+#       #
+#       # For MongoDB:
+#       # MONGODB_URL: mongodb://mongodb:27017/pet_adoption_db
+#
+#       APP_ENV: development
+#     volumes:
+#       - ./backend:/app
+#     depends_on:
+#       # Uncomment depending on the selected DB
+#       # - postgres
+#       # - mongodb
+#     networks:
+#       - pet_adoption_network
+
+#   postgres:
+#     image: postgres:16
+#     container_name: pet_adoption_postgres
+#     restart: unless-stopped
+#     ports:
+#       - "5432:5432"
+#     environment:
+#       POSTGRES_DB: pet_adoption_db
+#       POSTGRES_USER: postgres
+#       POSTGRES_PASSWORD: postgres
+#     volumes:
+#       - postgres_data:/var/lib/postgresql/data
+#     networks:
+#       - pet_adoption_network
+
+#   mongodb:
+#     image: mongo:7
+#     container_name: pet_adoption_mongodb
+#     restart: unless-stopped
+#     ports:
+#       - "27017:27017"
+#     environment:
+#       MONGO_INITDB_DATABASE: pet_adoption_db
+#     volumes:
+#       - mongodb_data:/data/db
+#     networks:
+#       - pet_adoption_network
+
+# volumes:
+#   postgres_data:
+#   mongodb_data:
+
+# networks:
+#   pet_adoption_network:
+#     driver: bridge
