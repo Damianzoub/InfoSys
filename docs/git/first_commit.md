@@ -181,3 +181,5 @@ Remember: **Save → Track → Commit → Push** for your changes, and **Pull** 
 | Commit              | `git commit -m "message"` | Create snapshot with message |
 | Push                | `git push origin main`    | Upload commits to GitHub     |
 | Pull                | `git pull`                | Download latest changes      |
+
+CREDITS TO: https://github.com/steliosgrs
