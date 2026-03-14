@@ -274,6 +274,7 @@ This workflow ensures:
 - ✅ Clear history of what was developed when
 - ✅ Easy to reproduce results for papers
 
-  credits to : https://github.com/steliosgrs
 
 **Remember**: Branches are cheap and powerful - use them liberally to organize your research and experiments!
+
+CREDITS TO : https://github.com/steliosgrs
