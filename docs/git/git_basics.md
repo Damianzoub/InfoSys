@@ -89,3 +89,5 @@ With Git:
 - You can experiment with the new loss function without breaking the main code
   - If your experiment works, it can be easily integrated
   - If it doesn't work, you can discard it without affecting anyone else
+
+CREDITS TO: https://github.com/steliosgrs
