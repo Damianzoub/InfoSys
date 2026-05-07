@@ -13,7 +13,7 @@
 - [ ] **Βήμα 2** — Express project init + middleware (cors, dotenv, jwt, multer, error handler)
 - [ ] **Βήμα 3** — `docs/api-spec.md` με όλα τα endpoints, request/response shapes
 
-> ✅ Όταν το Βήμα 3 είναι στο repo, ξεκλειδώνονται όλοι οι υπόλοιποι.
+> Όταν το Βήμα 3 είναι στο repo, ξεκλειδώνονται όλοι οι υπόλοιποι.
 
 ---
 
