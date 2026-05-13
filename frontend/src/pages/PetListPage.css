@@ -1,0 +1,147 @@
+.pet-list-page {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem;
+}
+
+.page-title {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: var(--text-h);
+  margin-bottom: 1.5rem;
+}
+
+/* ── Filters ── */
+.filters-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+  padding: 1rem 1.25rem;
+  background: var(--code-bg);
+  border-radius: 10px;
+  border: 1px solid var(--border);
+}
+
+.filters-bar select,
+.filters-bar input[type="text"],
+.filters-bar input[type="number"] {
+  padding: 0.45rem 0.75rem;
+  border: 1px solid var(--border);
+  border-radius: 7px;
+  background: var(--bg);
+  color: var(--text-h);
+  font-size: 0.9rem;
+  min-width: 150px;
+}
+
+.filters-bar select:focus,
+.filters-bar input:focus {
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
+}
+
+.btn-reset {
+  padding: 0.45rem 1rem;
+  background: transparent;
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 7px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: background 0.2s;
+}
+
+.btn-reset:hover {
+  background: var(--accent-bg);
+  color: var(--accent);
+  border-color: var(--accent-border);
+}
+
+/* ── Results count ── */
+.results-count {
+  font-size: 0.9rem;
+  color: var(--text);
+  margin-bottom: 1.25rem;
+}
+
+.results-error {
+  margin: 0 0 1rem;
+  color: #b42318;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+/* ── Pet grid ── */
+.pet-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+  gap: 1.25rem;
+}
+
+.pet-card {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+  text-decoration: none;
+  color: inherit;
+  background: var(--bg);
+  transition: box-shadow 0.2s, transform 0.15s;
+}
+
+.pet-card:hover {
+  box-shadow: var(--shadow);
+  transform: translateY(-3px);
+}
+
+.pet-card-photo {
+  height: 160px;
+  background: var(--code-bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.pet-card-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.pet-emoji {
+  font-size: 5rem;
+  line-height: 1;
+}
+
+.pet-card-info {
+  padding: 0.9rem 1rem;
+}
+
+.pet-name {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text-h);
+  margin: 0 0 0.25rem;
+}
+
+.pet-meta {
+  font-size: 0.82rem;
+  color: var(--text);
+  margin: 0 0 0.2rem;
+}
+
+.pet-location {
+  font-size: 0.82rem;
+  color: var(--text);
+  margin: 0 0 0.15rem;
+}
+
+.pet-shelter {
+  font-size: 0.78rem;
+  color: var(--accent);
+  font-weight: 500;
+  margin: 0;
+}
