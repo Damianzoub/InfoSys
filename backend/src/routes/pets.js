@@ -187,5 +187,67 @@ router.post('/', ...requireRole('shelter'), upload.array('photos', 5), async (re
     }
 });
 
+// ── 4. PUT /api/pets/:id ──────────────────────────────────────
+// Επεξεργασία στοιχείων ζώου (π.χ. αλλαγή κατάστασης σε "adopted")
+router.put('/:id', ...requireRole('shelter'), upload.array('photos', 5), async (req, res, next) => {
+    try {
+        const petId = req.params.id;
+        // Παίρνουμε όποια πεδία έστειλε ο χρήστης για ανανέωση
+        const { name, species, breed, age, gender, description, location, status } = req.body;
+
+        // 1. Βρίσκουμε το καταφύγιο που κάνει το αίτημα
+        const shelterResult = await db.query('SELECT id FROM shelters WHERE user_id = $1', [req.user.id]);
+        if (shelterResult.rows.length === 0) {
+            return res.status(403).json({ error: 'User is not associated with a shelter' });
+        }
+        const shelterId = shelterResult.rows[0].id;
+
+        // 2. Ελέγχουμε αν το ζώο υπάρχει και αν όντως ανήκει σε αυτό το καταφύγιο
+        const petCheck = await db.query('SELECT id, shelter_id FROM pets WHERE id = $1', [petId]);
+        if (petCheck.rows.length === 0) {
+            return res.status(404).json({ error: 'Pet not found' });
+        }
+        if (petCheck.rows[0].shelter_id !== shelterId) {
+            return res.status(403).json({ error: 'This pet does not belong to your shelter' });
+        }
+
+        // 3. Ενημέρωση των στοιχείων. 
+        // Χρησιμοποιούμε την εντολή COALESCE της SQL: Αν δεν δώσει νέο όνομα, κράτα το παλιό!
+        const updateQuery = `
+            UPDATE pets 
+            SET 
+                name = COALESCE($1, name),
+                species = COALESCE($2, species),
+                breed = COALESCE($3, breed),
+                age = COALESCE($4, age),
+                gender = COALESCE($5, gender),
+                description = COALESCE($6, description),
+                location = COALESCE($7, location),
+                status = COALESCE($8, status)
+            WHERE id = $9
+            RETURNING *;
+        `;
+        const updateValues = [name, species, breed, age, gender, description, location, status, petId];
+        const updatedPetResult = await db.query(updateQuery, updateValues);
+        const updatedPet = updatedPetResult.rows[0];
+
+        // 4. (Προαιρετικά) Αν ανέβασε ΚΑΙ νέες φωτογραφίες, τις προσθέτουμε στη βάση
+        if (req.files && req.files.length > 0) {
+            for (let i = 0; i < req.files.length; i++) {
+                const photoUrl = '/uploads/' + req.files[i].filename;
+                await db.query(
+                    'INSERT INTO photos (pet_id, url, is_primary) VALUES ($1, $2, false)',
+                    [petId, photoUrl]
+                );
+            }
+        }
+
+        // Επιστρέφουμε το ανανεωμένο ζώο ως επιβεβαίωση
+        res.json(updatedPet);
+    } catch (err) {
+        next(err);
+    }
+});
+
 // Εξάγουμε το router για να το δει το app.js
 module.exports = router;
