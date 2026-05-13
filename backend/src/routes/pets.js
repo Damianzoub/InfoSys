@@ -128,6 +128,64 @@ router.get('/:id', async (req, res, next) => {
     }
 });
 
+// ── 3. POST /api/pets ─────────────────────────────────────────
+// Προσθήκη νέου ζώου (μόνο για καταφύγια). Δέχεται δεδομένα και φωτογραφίες.
+router.post('/', ...requireRole('shelter'), upload.array('photos', 5), async (req, res, next) => {
+    try {
+        // 1. Παίρνουμε τα δεδομένα. Επειδή έχουμε φωτογραφίες, τα δεδομένα έρχονται στο req.body (form-data)
+        const { name, species, breed, age, gender, description, location } = req.body;
+
+        // Έλεγχος: Το όνομα και το είδος είναι υποχρεωτικά
+        if (!name || !species) {
+            return res.status(400).json({ error: 'Name and species are required' });
+        }
+
+        // 2. Βρίσκουμε το ID του καταφυγίου που ανήκει στον χρήστη που κάνει το αίτημα
+        const shelterResult = await db.query('SELECT id, name, city, phone FROM shelters WHERE user_id = $1', [req.user.id]);
+        if (shelterResult.rows.length === 0) {
+            return res.status(403).json({ error: 'User is not associated with a shelter' });
+        }
+        const shelter = shelterResult.rows[0];
+
+        // 3. Εισαγωγή του ζώου στον πίνακα pets
+        const insertPetQuery = `
+            INSERT INTO pets (shelter_id, name, species, breed, age, gender, description, location)
+            VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
+            RETURNING *;
+        `;
+        // Βάζουμε null αν κάποιο πεδίο είναι άδειο
+        const petValues = [shelter.id, name, species, breed || null, age || null, gender || null, description || null, location || null];
+        const petResult = await db.query(insertPetQuery, petValues);
+        const newPet = petResult.rows[0];
+
+        // 4. Αποθήκευση των φωτογραφιών (αν ανέβασε κάποια)
+        const photos = [];
+        if (req.files && req.files.length > 0) {
+            for (let i = 0; i < req.files.length; i++) {
+                // Το path που θα σωθεί στη βάση (π.χ. /uploads/16432...-dog.jpg)
+                const photoUrl = '/uploads/' + req.files[i].filename; 
+                const isPrimary = (i === 0); // Η πρώτη φωτογραφία γίνεται η κύρια
+                
+                const photoResult = await db.query(
+                    'INSERT INTO photos (pet_id, url, is_primary) VALUES ($1, $2, $3) RETURNING id, url, is_primary',
+                    [newPet.id, photoUrl, isPrimary]
+                );
+                photos.push(photoResult.rows[0]);
+            }
+        }
+
+        // 5. Φτιάχνουμε το τελικό αντικείμενο για απάντηση (όπως το ζητάει το api-spec)
+        const finalResponse = {
+            ...newPet,
+            shelter: shelter,
+            photos: photos
+        };
+
+        res.status(201).json(finalResponse);
+    } catch (err) {
+        next(err);
+    }
+});
 
 // Εξάγουμε το router για να το δει το app.js
 module.exports = router;
