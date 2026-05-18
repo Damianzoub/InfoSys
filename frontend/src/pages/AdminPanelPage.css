@@ -1,0 +1,188 @@
+.admin-panel {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem;
+}
+
+/* ── Stats grid ── */
+.stats-section {
+  margin-bottom: 2.5rem;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.stat-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1.25rem 1rem;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  transition: box-shadow 0.2s, transform 0.15s;
+}
+
+.stat-card:hover {
+  box-shadow: var(--shadow);
+  transform: translateY(-2px);
+}
+
+.stat-card.accent {
+  border-color: var(--accent-border);
+  background: var(--accent-bg);
+}
+
+.stat-value {
+  font-size: 2rem;
+  font-weight: 800;
+  color: var(--text-h);
+  line-height: 1.2;
+}
+
+.stat-card.accent .stat-value {
+  color: var(--accent);
+}
+
+.stat-label {
+  font-size: 0.85rem;
+  color: var(--text);
+  margin-top: 0.25rem;
+}
+
+/* ── Adoption breakdown ── */
+.adoption-breakdown {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.breakdown-item {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.4rem 0.85rem;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.breakdown-item.pending {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.breakdown-item.approved {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.breakdown-item.rejected {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+.breakdown-value {
+  font-weight: 800;
+}
+
+/* ── Report sections ── */
+.report-section {
+  margin-bottom: 2rem;
+}
+
+.section-title {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--text-h);
+  margin-bottom: 0.75rem;
+}
+
+/* ── Tables ── */
+.table-wrap {
+  overflow-x: auto;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+}
+
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.88rem;
+}
+
+.data-table thead {
+  background: var(--code-bg);
+}
+
+.data-table th {
+  text-align: left;
+  padding: 0.65rem 0.9rem;
+  font-weight: 600;
+  color: var(--text-h);
+  border-bottom: 1px solid var(--border);
+  white-space: nowrap;
+}
+
+.data-table td {
+  padding: 0.6rem 0.9rem;
+  border-bottom: 1px solid var(--border);
+  color: var(--text);
+}
+
+.data-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.data-table tbody tr:hover {
+  background: var(--accent-bg);
+}
+
+.cell-name {
+  font-weight: 600;
+  color: var(--text-h);
+}
+
+.cell-num {
+  text-align: center;
+  font-weight: 600;
+}
+
+.cell-date {
+  white-space: nowrap;
+}
+
+/* ── Status pills ── */
+.status-pill {
+  display: inline-block;
+  padding: 0.2rem 0.6rem;
+  border-radius: 5px;
+  font-size: 0.78rem;
+  font-weight: 600;
+}
+
+.status-pill.pending {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.status-pill.approved {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.status-pill.rejected {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+.report-timestamp {
+  font-size: 0.78rem;
+  color: var(--text);
+  text-align: right;
+  margin-top: 0.5rem;
+}
