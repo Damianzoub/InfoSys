@@ -4,6 +4,11 @@ import { mockPets, mockPetDetails } from '../data/mockPets';
 const DATA_SOURCE = (import.meta.env.VITE_PET_DATA_SOURCE || 'mock').toLowerCase();
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000';
 
+function authHeaders() {
+  const token = localStorage.getItem('token');
+  return token ? { Authorization: `Bearer ${token}` } : {};
+}
+
 function normalizeText(value) {
   return String(value)
     .normalize('NFD')
@@ -38,6 +43,7 @@ export async function getPets(filters = {}) {
         age: filters.age || undefined,
         location: filters.location || undefined,
       },
+      headers: authHeaders(),
     });
     return data;
   }
@@ -47,7 +53,9 @@ export async function getPets(filters = {}) {
 
 export async function getPetById(id) {
   if (DATA_SOURCE === 'api') {
-    const { data } = await axios.get(`${API_BASE_URL}/api/pets/${id}`);
+    const { data } = await axios.get(`${API_BASE_URL}/api/pets/${id}`, {
+      headers: authHeaders(),
+    });
     return data;
   }
 
