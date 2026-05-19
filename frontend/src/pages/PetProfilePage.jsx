@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { getPetById } from '../services/petService';
 import './PetProfilePage.css';
+import AdoptionForm from "./AdoptionForm"
 
 const GENDER_LABEL = { male: 'Αρσενικό', female: 'Θηλυκό', unknown: 'Άγνωστο' };
 const SPECIES_EMOJI = { dog: '🐶', cat: '🐱', rabbit: '🐰' };
@@ -12,6 +13,7 @@ export default function PetProfilePage() {
   const [pet, setPet] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const [showAdoptionForm, setShowAdoptionForm] = useState(false);
 
   useEffect(() => {
     let isCancelled = false;
@@ -118,14 +120,25 @@ export default function PetProfilePage() {
               <p className="cta-note">
                 Θέλεις να υιοθετήσεις τον/την <strong>{pet.name}</strong>; Σύνδεσου για να υποβάλεις αίτηση.
               </p>
-              {/* Adoption form — Βήμα 12 */}
-              <button className="btn-adopt" disabled title="Διαθέσιμο μετά τη σύνδεση">
+              <button className="btn-adopt" onClick={() => setShowAdoptionForm(true)}>
                 Υποβολή αίτησης υιοθεσίας
               </button>
             </div>
           )}
         </div>
       </div>
+      
+      {/* Adoption form modal CSS pending*/}
+      {showAdoptionForm && (
+        <div className="adoption-modal-overlay" onClick={() => setShowAdoptionForm(false)}>
+          <div className="adoption-modal" onClick={(e) => e.stopPropagation()}>
+            <button className="close-modal" onClick={() => setShowAdoptionForm(false)}>
+              ✕
+            </button>
+            <AdoptionForm petId={pet.id} />
+          </div>
+        </div>
+      )}
 
       {/* Extra photos */}
       {pet.photos.length > 1 && (

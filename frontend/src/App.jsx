@@ -4,6 +4,7 @@ import PetListPage from './pages/PetListPage'
 import PetProfilePage from './pages/PetProfilePage'
 import AuthPage from './pages/AuthPage'
 import './App.css'
+import AdoptionForm from "./pages/AdoptionForm";
 
 function App() {
   return (

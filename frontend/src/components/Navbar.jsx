@@ -11,13 +11,9 @@ export default function Navbar() {
         <NavLink to="/pets" className={({ isActive }) => isActive ? 'nav-link active' : 'nav-link'}>
           Υιοθεσίες
         </NavLink>
-        {/* Auth links — Βήμα 6 (Αλεσία) */}
-        {/* <NavLink to="/login" className={({ isActive }) => isActive ? 'nav-link active' : 'nav-link'}>
-          Σύνδεση
-        </NavLink> */}
-        {/* <NavLink to="/register" className={({ isActive }) => isActive ? 'nav-link btn-register active' : 'nav-link btn-register'}>
-          Εγγραφή
-        </NavLink> */}
+        <NavLink to="/auth" className={({ isActive }) =>isActive ? 'nav-link active' : 'nav-link'}>
+        Login / Register
+        </NavLink>
       </div>
     </nav>
   );
