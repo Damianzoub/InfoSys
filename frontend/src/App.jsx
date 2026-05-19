@@ -3,11 +3,8 @@ import Navbar from './components/Navbar'
 import PetListPage from './pages/PetListPage'
 import PetProfilePage from './pages/PetProfilePage'
 import AuthPage from './pages/AuthPage'
-import MyAdoptionsPage from './pages/MyAdoptionsPage'
-import ShelterDashboardPage from './pages/ShelterDashboardPage'
-import AdminPanelPage from './pages/AdminPanelPage'
-import ProfilePage from './pages/ProfilePage'
 import './App.css'
+import AdoptionForm from "./pages/AdoptionForm";
 
 function App() {
   return (
@@ -19,10 +16,6 @@ function App() {
           <Route path="/pets" element={<PetListPage />} />
           <Route path="/pets/:id" element={<PetProfilePage />} />
           <Route path="/auth" element={<AuthPage />} />
-          <Route path="/my-adoptions" element={<MyAdoptionsPage />} />
-          <Route path="/shelter/dashboard" element={<ShelterDashboardPage />} />
-          <Route path="/admin" element={<AdminPanelPage />} />
-          <Route path="/profile" element={<ProfilePage />} />
         </Routes>
       </main>
     </BrowserRouter>
