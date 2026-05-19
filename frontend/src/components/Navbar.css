@@ -54,3 +54,26 @@
   opacity: 0.88;
   background: var(--accent);
 }
+
+.nav-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: #790075;
+  color: #fff;
+  font-size: 13px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  letter-spacing: 0.5px;
+  border: 2px solid transparent;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.nav-avatar:hover,
+.nav-avatar.active {
+  border-color: #790075;
+  box-shadow: 0 0 0 3px #79007530;
+}

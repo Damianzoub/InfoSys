@@ -5,11 +5,14 @@ function navClass({ isActive }) {
   return isActive ? 'nav-link active' : 'nav-link';
 }
 
+function initials(name = '') {
+  return name.split(' ').map(w => w[0]).join('').slice(0, 2).toUpperCase();
+}
+
 export default function Navbar() {
-  // Read user from localStorage (set on login by auth flow)
   const stored = localStorage.getItem('user');
   const user = stored ? JSON.parse(stored) : null;
-  const role = user?.role; // 'user' | 'shelter' | 'admin' | undefined
+  const role = user?.role;
 
   return (
     <nav className="navbar">
@@ -21,31 +24,31 @@ export default function Navbar() {
           Υιοθεσίες
         </NavLink>
 
-        {/* Links visible when logged in as regular user */}
         {role === 'user' && (
           <NavLink to="/my-adoptions" className={navClass}>
             Οι αιτήσεις μου
           </NavLink>
         )}
 
-        {/* Links visible when logged in as shelter */}
         {role === 'shelter' && (
           <NavLink to="/shelter/dashboard" className={navClass}>
             Πίνακας Καταφυγίου
           </NavLink>
         )}
 
-        {/* Links visible when logged in as admin */}
         {role === 'admin' && (
           <NavLink to="/admin" className={navClass}>
             Διαχείριση
           </NavLink>
         )}
 
-        {/* Auth link — shown when not logged in */}
-        {!user && (
+        {!user ? (
           <NavLink to="/auth" className={navClass}>
             Σύνδεση
+          </NavLink>
+        ) : (
+          <NavLink to="/profile" className="nav-avatar" title={user.name}>
+            {initials(user.name)}
           </NavLink>
         )}
       </div>

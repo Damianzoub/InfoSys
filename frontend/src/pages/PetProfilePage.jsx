@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { getPetById } from '../services/petService';
+import { submitAdoption } from '../services/adoptionService';
 import './PetProfilePage.css';
 
 const GENDER_LABEL = { male: 'Αρσενικό', female: 'Θηλυκό', unknown: 'Άγνωστο' };
@@ -12,6 +13,13 @@ export default function PetProfilePage() {
   const [pet, setPet] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+
+  const stored = localStorage.getItem('user');
+  const user = stored ? JSON.parse(stored) : null;
+
+  const [message, setMessage] = useState('');
+  const [submitting, setSubmitting] = useState(false);
+  const [adoptResult, setAdoptResult] = useState(null); // 'success' | 'error' | 'duplicate'
 
   useEffect(() => {
     let isCancelled = false;
@@ -115,13 +123,54 @@ export default function PetProfilePage() {
 
           {pet.status === 'available' && (
             <div className="profile-adopt-cta">
-              <p className="cta-note">
-                Θέλεις να υιοθετήσεις τον/την <strong>{pet.name}</strong>; Σύνδεσου για να υποβάλεις αίτηση.
-              </p>
-              {/* Adoption form — Βήμα 12 */}
-              <button className="btn-adopt" disabled title="Διαθέσιμο μετά τη σύνδεση">
-                Υποβολή αίτησης υιοθεσίας
-              </button>
+              {!user ? (
+                <>
+                  <p className="cta-note">
+                    Θέλεις να υιοθετήσεις τον/την <strong>{pet.name}</strong>;{' '}
+                    <Link to="/auth">Συνδέσου</Link> για να υποβάλεις αίτηση.
+                  </p>
+                </>
+              ) : user.role !== 'user' ? (
+                <p className="cta-note">Μόνο απλοί χρήστες μπορούν να υποβάλουν αίτηση υιοθεσίας.</p>
+              ) : adoptResult === 'success' ? (
+                <p className="adopt-success">✅ Η αίτησή σου υποβλήθηκε! Μπορείς να τη δεις στο <Link to="/profile">προφίλ σου</Link>.</p>
+              ) : (
+                <>
+                  <h3 className="cta-title">Υποβολή αίτησης υιοθεσίας</h3>
+                  <textarea
+                    className="adopt-message"
+                    placeholder="Πες μας λίγα λόγια για σένα (προαιρετικό)..."
+                    value={message}
+                    onChange={e => setMessage(e.target.value)}
+                    rows={3}
+                  />
+                  {adoptResult === 'duplicate' && (
+                    <p className="adopt-error">Έχεις ήδη υποβάλει αίτηση για αυτό το ζώο.</p>
+                  )}
+                  {adoptResult === 'error' && (
+                    <p className="adopt-error">Κάτι πήγε στραβά. Δοκίμασε ξανά.</p>
+                  )}
+                  <button
+                    className="btn-adopt"
+                    disabled={submitting}
+                    onClick={async () => {
+                      setSubmitting(true);
+                      setAdoptResult(null);
+                      try {
+                        await submitAdoption(Number(id), message);
+                        setAdoptResult('success');
+                      } catch (err) {
+                        const status = err?.response?.status;
+                        setAdoptResult(status === 409 ? 'duplicate' : 'error');
+                      } finally {
+                        setSubmitting(false);
+                      }
+                    }}
+                  >
+                    {submitting ? 'Υποβολή...' : 'Υποβολή αίτησης'}
+                  </button>
+                </>
+              )}
             </div>
           )}
         </div>

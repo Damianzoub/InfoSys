@@ -157,6 +157,47 @@
   opacity: 0.88;
 }
 
+.cta-title {
+  font-size: 1rem;
+  color: var(--accent);
+  margin: 0 0 0.6rem;
+}
+
+.adopt-message {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-size: 0.9rem;
+  color: #1a1a1a;
+  resize: vertical;
+  margin-bottom: 0.75rem;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.adopt-message:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px #79007520;
+}
+
+.adopt-success {
+  color: #1a7a3c;
+  font-weight: 600;
+  font-size: 0.95rem;
+  margin: 0;
+}
+
+.adopt-success a {
+  color: #1a7a3c;
+}
+
+.adopt-error {
+  color: #c0392b;
+  font-size: 0.88rem;
+  margin: 0 0 0.6rem;
+}
+
 /* Extra photos */
 .extra-photos {
   display: flex;

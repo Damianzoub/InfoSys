@@ -6,6 +6,7 @@ import AuthPage from './pages/AuthPage'
 import MyAdoptionsPage from './pages/MyAdoptionsPage'
 import ShelterDashboardPage from './pages/ShelterDashboardPage'
 import AdminPanelPage from './pages/AdminPanelPage'
+import ProfilePage from './pages/ProfilePage'
 import './App.css'
 
 function App() {
@@ -21,6 +22,7 @@ function App() {
           <Route path="/my-adoptions" element={<MyAdoptionsPage />} />
           <Route path="/shelter/dashboard" element={<ShelterDashboardPage />} />
           <Route path="/admin" element={<AdminPanelPage />} />
+          <Route path="/profile" element={<ProfilePage />} />
         </Routes>
       </main>
     </BrowserRouter>

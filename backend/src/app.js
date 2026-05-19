@@ -19,22 +19,12 @@ app.use('/uploads', express.static(uploadDir));
 // ── Health check ─────────────────────────────────────────────────────────────
 app.get('/health', (_, res) => res.json({ status: 'ok' }));
 
-// ── Routes (added per phase) ──────────────────────────────────────────────────
-// Phase 1: mount /api/auth, /api/pets, /api/adoptions, /api/shelter, /api/admin
-
-// Step 5 — Ιωάννης: Adoption requests + Admin stats/report
-const adoptionsRouter = require('./routes/adoptions');
-const adminRouter     = require('./routes/admin');
-
-app.use('/api/adoptions', adoptionsRouter);
-app.use('/api/admin',     adminRouter);
-
-// Step 4 — Χρήστος: /api/pets + /api/shelter (pending)
-// app.use('/api/pets',    require('./routes/pets'));
-// app.use('/api/shelter', require('./routes/shelter'));
-
-// Step 0 — Δαμιανός: /api/auth (pending)
-// app.use('/api/auth',   require('./routes/auth'));
+// ── Routes ────────────────────────────────────────────────────────────────────
+app.use('/api/auth',      require('./routes/auth'));
+app.use('/api/pets',      require('./routes/pets'));
+app.use('/api/shelter',   require('./routes/shelter'));
+app.use('/api/adoptions', require('./routes/adoptions'));
+app.use('/api/admin',     require('./routes/admin'));
 
 // ── 404 ───────────────────────────────────────────────────────────────────────
 app.use((_, res) => res.status(404).json({ error: 'Route not found' }));
