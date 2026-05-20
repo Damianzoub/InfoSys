@@ -1,18 +1,8 @@
 import { NavLink } from 'react-router-dom';
 import './Navbar.css';
 
-function navClass({ isActive }) {
-  return isActive ? 'nav-link active' : 'nav-link';
-}
-
-function initials(name = '') {
-  return name.split(' ').map(w => w[0]).join('').slice(0, 2).toUpperCase();
-}
-
 export default function Navbar() {
-  const stored = localStorage.getItem('user');
-  const user = stored ? JSON.parse(stored) : null;
-  const role = user?.role;
+  const linkClass = ({ isActive }) => isActive ? 'nav-link active' : 'nav-link';
 
   return (
     <nav className="navbar">
@@ -20,37 +10,24 @@ export default function Navbar() {
         🐾 PetAdopt
       </NavLink>
       <div className="navbar-links">
-        <NavLink to="/pets" className={navClass}>
+        <NavLink to="/pets" className={linkClass}>
           Υιοθεσίες
         </NavLink>
-
-        {role === 'user' && (
-          <NavLink to="/my-adoptions" className={navClass}>
-            Οι αιτήσεις μου
-          </NavLink>
-        )}
-
-        {role === 'shelter' && (
-          <NavLink to="/shelter/dashboard" className={navClass}>
-            Πίνακας Καταφυγίου
-          </NavLink>
-        )}
-
-        {role === 'admin' && (
-          <NavLink to="/admin" className={navClass}>
-            Διαχείριση
-          </NavLink>
-        )}
-
-        {!user ? (
-          <NavLink to="/auth" className={navClass}>
-            Σύνδεση
-          </NavLink>
-        ) : (
-          <NavLink to="/profile" className="nav-avatar" title={user.name}>
-            {initials(user.name)}
-          </NavLink>
-        )}
+        <NavLink to="/my-adoptions" className={linkClass}>
+          Οι αιτήσεις μου
+        </NavLink>
+        <NavLink to="/shelter-dashboard" className={linkClass}>
+          Καταφύγιο
+        </NavLink>
+        <NavLink to="/admin" className={linkClass}>
+          Admin
+        </NavLink>
+        <NavLink to="/profile" className={linkClass}>
+          Προφίλ
+        </NavLink>
+        <NavLink to="/auth" className={linkClass}>
+          Login / Register
+        </NavLink>
       </div>
     </nav>
   );
