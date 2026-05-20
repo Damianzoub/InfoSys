@@ -9,8 +9,6 @@ const STATUS_LABEL = {
   rejected: 'Απορρίφθηκε',
 };
 
-const SPECIES_EMOJI = { dog: '🐶', cat: '🐱', rabbit: '🐰' };
-
 export default function MyAdoptionsPage() {
   const [adoptions, setAdoptions] = useState([]);
   const [loading, setLoading] = useState(true);
