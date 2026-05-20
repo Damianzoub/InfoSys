@@ -172,6 +172,8 @@
   color: #1a1a1a;
   resize: vertical;
   margin-bottom: 0.75rem;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
 }
 
 /* ─────────────────────────────────────── */
@@ -248,9 +250,6 @@
     width: 95%;
     max-height: 85vh;
   }
-}
-  outline: none;
-  transition: border-color 0.2s, box-shadow 0.2s;
 }
 
 .adopt-message:focus {
