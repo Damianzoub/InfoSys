@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { getStats, getReport } from '../services/adminService';
 import './AdminPanelPage.css';
 
@@ -9,12 +10,20 @@ const STATUS_LABEL = {
 };
 
 export default function AdminPanelPage() {
+  const navigate = useNavigate();
   const [stats, setStats] = useState(null);
   const [report, setReport] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
 
+  const stored = localStorage.getItem('user');
+  const user = stored ? JSON.parse(stored) : null;
+
   useEffect(() => {
+    if (!user || user.role !== 'admin') {
+      navigate('/auth');
+      return;
+    }
     let isCancelled = false;
 
     async function load() {

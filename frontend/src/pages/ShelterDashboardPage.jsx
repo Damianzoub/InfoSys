@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { getShelterRequests, updateRequestStatus } from '../services/adoptionService';
 import './ShelterDashboardPage.css';
 
@@ -9,12 +10,21 @@ const STATUS_LABEL = {
 };
 
 export default function ShelterDashboardPage() {
+  const navigate = useNavigate();
   const [requests, setRequests] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [actionLoading, setActionLoading] = useState(null);
 
+  const stored = localStorage.getItem('user');
+  const user = stored ? JSON.parse(stored) : null;
+
   useEffect(() => {
+    if (!user || user.role !== 'shelter') {
+      navigate('/auth');
+      return;
+    }
+
     let isCancelled = false;
 
     async function load() {

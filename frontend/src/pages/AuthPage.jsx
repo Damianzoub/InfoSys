@@ -1,9 +1,11 @@
 import "./AuthPage.css"
-import { useState} from 'react'
+import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
 
 function AuthPage()
 {
+  const navigate = useNavigate()
   //mode for switching between login/register form
   const [mode, setMode] = useState('login')
   //message shown under the forms
@@ -46,18 +48,9 @@ function AuthPage()
       //show response in console
       console.log(response.data)
 
-      //save token to local storage
       localStorage.setItem('token', response.data.token)
-      //save user data to local storage
       localStorage.setItem('user', JSON.stringify(response.data.user))
-      setMessage('Login successful.')
-      
-      //clear login form
-      setLoginForm(
-      {
-        email: '',
-        password: '',
-      })
+      navigate('/pets')
     }
     //if request fails
     catch(error)
@@ -97,19 +90,9 @@ function AuthPage()
       //print response in browser console
       console.log(response.data)
       
-      //save token to local storage
       localStorage.setItem('token', response.data.token)
-      //save user data to local storage
       localStorage.setItem('user', JSON.stringify(response.data.user))
-      setMessage('Register successful.')
-      
-      //clear register form
-      setRegisterForm(
-      {
-        name: '',
-        email: '',
-        password: '',
-      })
+      navigate('/pets')
     }
     //if request fails
     catch(error)
