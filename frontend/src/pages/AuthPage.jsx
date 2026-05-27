@@ -1,8 +1,11 @@
 import "./AuthPage.css"
-import { useState} from 'react'
+import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import axios from 'axios'
 
 function AuthPage()
 {
+  const navigate = useNavigate()
   //mode for switching between login/register form
   const [mode, setMode] = useState('login')
   //message shown under the forms
@@ -23,7 +26,7 @@ function AuthPage()
   })
 
   //login function
-  function handleLogin(e)
+  async function handleLogin(e)
   {
     //stop page refresh after submit
     e.preventDefault()
@@ -34,23 +37,37 @@ function AuthPage()
       return
     }
 
-    //fake backend response(for now)
-    const mockResponse =
+    try
     {
-      token: 'mock-login-token',
-      user:
+      //send login data to backend api
+      const response = await axios.post('http://localhost:8000/api/auth/login',
       {
         email: loginForm.email,
-      },
+        password: loginForm.password,
+      })
+      //show response in console
+      console.log(response.data)
+
+      localStorage.setItem('token', response.data.token)
+      localStorage.setItem('user', JSON.stringify(response.data.user))
+      navigate('/pets')
     }
-    //show response in console
-    console.log(mockResponse)
-    //success message
-    setMessage('Login successful.')
+    //if request fails
+    catch(error)
+    {
+      if(error.response && error.response.data && error.response.data.error)
+      {
+        setMessage(error.response.data.error)
+      }
+      else
+      {
+        setMessage('Login failed.')
+      }
+    }
   }
 
   //register function
-  function handleRegister(e)
+  async function handleRegister(e)
   {
     //stop normal form submit
     e.preventDefault()
@@ -61,21 +78,34 @@ function AuthPage()
       return
     }
 
-    //fake register response
-    const mockResponse =
+    try
     {
-      token: 'mock-register-token',
-      user:
+      //send register data to backend api
+      const response = await axios.post('http://localhost:8000/api/auth/register',
       {
         name: registerForm.name,
         email: registerForm.email,
-      },
+        password: registerForm.password,
+      })
+      //print response in browser console
+      console.log(response.data)
+      
+      localStorage.setItem('token', response.data.token)
+      localStorage.setItem('user', JSON.stringify(response.data.user))
+      navigate('/pets')
     }
-
-    //print response in browser console
-    console.log(mockResponse)
-    //success message
-    setMessage('Register successful.')
+    //if request fails
+    catch(error)
+    {
+      if(error.response && error.response.data && error.response.data.error)
+      {
+        setMessage(error.response.data.error)
+      }
+      else
+      {
+        setMessage('Register failed.')
+      }
+    }
   }
 
   const [moveX, setMoveX] = useState(0)
@@ -135,6 +165,7 @@ function AuthPage()
 
               <input
                 type="email"
+                name="email"
                 placeholder="Email"
                 value={loginForm.email}
                 //update login email
@@ -149,6 +180,7 @@ function AuthPage()
 
               <input
                 type="password"
+                name="password"
                 placeholder="Password"
                 value={loginForm.password}
                 //update login password
@@ -175,6 +207,7 @@ function AuthPage()
 
               <input
                 type="text"
+                name="name"
                 placeholder="Name"
                 value={registerForm.name}
                 //update register name
@@ -189,6 +222,7 @@ function AuthPage()
 
               <input
                 type="email"
+                name="email"
                 placeholder="Email"
                 value={registerForm.email}
                 //update register email
@@ -203,6 +237,7 @@ function AuthPage()
 
               <input
                 type="password"
+                name="password"
                 placeholder="Password"
                 value={registerForm.password}
                 //update register password

@@ -11,28 +11,53 @@ services:
       POSTGRES_PASSWORD: postgres
     volumes:
       - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
     networks:
       - pet_adoption_network
 
-  # backend — uncomment in Phase 5 when Dockerfile is ready
-  # backend:
-  #   build:
-  #     context: ./backend
-  #     dockerfile: Dockerfile
-  #   container_name: pet_adoption_backend
-  #   restart: unless-stopped
-  #   ports:
-  #     - "8000:8000"
-  #   environment:
-  #     DATABASE_URL: postgresql://postgres:postgres@postgres:5432/pet_adoption_db
-  #     JWT_SECRET: change_in_production
-  #     PORT: 8000
-  #   volumes:
-  #     - ./backend/uploads:/app/uploads
-  #   depends_on:
-  #     - postgres
-  #   networks:
-  #     - pet_adoption_network
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: pet_adoption_backend
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    environment:
+      DATABASE_URL: postgresql://postgres:postgres@postgres:5432/pet_adoption_db
+      JWT_SECRET: change_in_production
+      JWT_EXPIRES_IN: 7d
+      PORT: 8000
+      UPLOAD_DIR: uploads/
+    volumes:
+      - ./backend/uploads:/app/uploads
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - pet_adoption_network
+
+  frontend:
+    image: node:22-alpine
+    container_name: pet_adoption_frontend
+    working_dir: /app
+    command: sh -c "npm install && npm run dev -- --host"
+    ports:
+      - "5173:5173"
+    environment:
+      VITE_API_BASE_URL: http://localhost:8000
+      VITE_PET_DATA_SOURCE: api
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    depends_on:
+      - backend
+    networks:
+      - pet_adoption_network
 
 volumes:
   postgres_data:

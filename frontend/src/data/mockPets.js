@@ -171,7 +171,7 @@ export const mockPetDetails = {
     breed: 'Περσική',
     age: 1.5,
     gender: 'female',
-    description: 'Ήρεμη και ласкавη γάτα. Ταιριάζει σε διαμέρισμα. Ήδη αποπαρασιτωμένη.',
+    description: 'Ήρεμη και τρυφερή γάτα. Ταιριάζει σε διαμέρισμα. Ήδη αποπαρασιτωμένη.',
     location: 'Θεσσαλονίκη',
     status: 'available',
     shelter: { id: 2, name: 'Φιλόζωοι Θεσσαλονίκης', city: 'Θεσσαλονίκη', phone: '2310-987654' },
