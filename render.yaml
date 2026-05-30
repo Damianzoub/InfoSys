@@ -1,35 +1,9 @@
-databases:
-  - name: pet-adoption-db
-    databaseName: pet_adoption_db
-    plan: free
-
 services:
-  # ── Backend (Express API) ─────────────────────────────────────────────────
-  - type: web
-    name: pet-adoption-backend
-    env: docker
-    dockerfilePath: ./backend/Dockerfile
-    dockerContext: ./backend
-    healthCheckPath: /health
-    autoDeploy: true
-    envVars:
-      - key: DATABASE_URL
-        fromDatabase:
-          name: pet-adoption-db
-          property: connectionString
-      - key: JWT_SECRET
-        generateValue: true
-      - key: JWT_EXPIRES_IN
-        value: 7d
-      - key: NODE_ENV
-        value: production
-      - key: UPLOAD_DIR
-        value: uploads/
-
   # ── Frontend (React / Vite static build) ──────────────────────────────────
+  # Backend and database are deployed on Railway (see backend/railway.toml)
   - type: web
     name: pet-adoption-frontend
-    env: static
+    runtime: static
     rootDir: frontend
     buildCommand: npm install && npm run build
     staticPublishPath: dist
@@ -40,8 +14,8 @@ services:
         source: /*
         destination: /index.html
     envVars:
-      # Set this to the backend's Render URL after the backend service is deployed
-      # e.g. https://pet-adoption-backend.onrender.com
+      # Set this to the Railway backend URL after it is deployed
+      # e.g. https://pet-adoption-backend.up.railway.app
       - key: VITE_API_BASE_URL
         sync: false
       - key: VITE_PET_DATA_SOURCE
