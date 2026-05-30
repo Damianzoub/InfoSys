@@ -1,7 +1,6 @@
 databases:
   - name: pet-adoption-db
     databaseName: pet_adoption_db
-    user: postgres
     plan: free
 
 services:
