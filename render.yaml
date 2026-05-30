@@ -10,7 +10,6 @@ services:
     env: docker
     dockerfilePath: ./backend/Dockerfile
     dockerContext: ./backend
-    plan: free
     healthCheckPath: /health
     autoDeploy: true
     envVars:
@@ -34,7 +33,6 @@ services:
     rootDir: frontend
     buildCommand: npm install && npm run build
     staticPublishPath: dist
-    plan: free
     autoDeploy: true
     routes:
       # Send all paths to index.html so React Router handles client-side routing
