@@ -1,11 +1,11 @@
-import axios from 'axios';
+import axios from 'axios'
 
-const DATA_SOURCE = (import.meta.env.VITE_PET_DATA_SOURCE || 'mock').toLowerCase();
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000';
+const DATA_SOURCE = (import.meta.env.VITE_PET_DATA_SOURCE || 'mock').toLowerCase()
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000'
 
 function authHeaders() {
-  const token = localStorage.getItem('token');
-  return token ? { Authorization: `Bearer ${token}` } : {};
+  const token = localStorage.getItem('token')
+  return token ? { Authorization: `Bearer ${token}` } : {}
 }
 
 /* ── Mock data ── */
@@ -38,7 +38,7 @@ const mockUserAdoptions = [
     status: 'rejected',
     created_at: '2026-04-28T11:15:00Z',
   },
-];
+]
 
 const mockShelterRequests = [
   {
@@ -71,7 +71,7 @@ const mockShelterRequests = [
     status: 'pending',
     created_at: '2026-05-14T16:45:00Z',
   },
-];
+]
 
 /* ── API calls ── */
 
@@ -83,48 +83,48 @@ export async function submitAdoption(petId, message) {
       status: 'pending',
       message,
       created_at: new Date().toISOString(),
-    };
+    }
   }
 
   const { data } = await axios.post(
     `${API_BASE_URL}/api/adoptions`,
     { pet_id: petId, message },
     { headers: authHeaders() },
-  );
-  return data;
+  )
+  return data
 }
 
 export async function getUserAdoptions() {
   if (DATA_SOURCE === 'mock') {
-    return mockUserAdoptions;
+    return mockUserAdoptions
   }
 
   const { data } = await axios.get(`${API_BASE_URL}/api/adoptions/user`, {
     headers: authHeaders(),
-  });
-  return data;
+  })
+  return data
 }
 
 export async function getShelterRequests() {
   if (DATA_SOURCE === 'mock') {
-    return mockShelterRequests;
+    return mockShelterRequests
   }
 
   const { data } = await axios.get(`${API_BASE_URL}/api/adoptions/shelter`, {
     headers: authHeaders(),
-  });
-  return data;
+  })
+  return data
 }
 
 export async function updateRequestStatus(requestId, status) {
   if (DATA_SOURCE === 'mock') {
-    return { id: requestId, status, updated_at: new Date().toISOString() };
+    return { id: requestId, status, updated_at: new Date().toISOString() }
   }
 
   const { data } = await axios.put(
     `${API_BASE_URL}/api/adoptions/${requestId}`,
     { status },
     { headers: authHeaders() },
-  );
-  return data;
+  )
+  return data
 }

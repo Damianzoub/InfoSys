@@ -85,7 +85,9 @@
   font-size: 13px;
   font-weight: 600;
   cursor: pointer;
-  transition: background 0.2s, border-color 0.2s;
+  transition:
+    background 0.2s,
+    border-color 0.2s;
   white-space: nowrap;
 }
 
@@ -110,7 +112,9 @@
   flex-direction: column;
   align-items: center;
   gap: 6px;
-  transition: transform 0.2s, box-shadow 0.2s;
+  transition:
+    transform 0.2s,
+    box-shadow 0.2s;
 }
 
 .stat-card:hover {
@@ -132,13 +136,27 @@
   text-align: center;
 }
 
-.stat-pending  { background: #fff8e6; border-color: #f0d080; }
-.stat-pending  .stat-number { color: #b07800; }
-.stat-pending  .stat-label  { color: #b07800; }
+.stat-pending {
+  background: #fff8e6;
+  border-color: #f0d080;
+}
+.stat-pending .stat-number {
+  color: #b07800;
+}
+.stat-pending .stat-label {
+  color: #b07800;
+}
 
-.stat-approved { background: #eafaf1; border-color: #a0d9b4; }
-.stat-approved .stat-number { color: #1a7a3c; }
-.stat-approved .stat-label  { color: #1a7a3c; }
+.stat-approved {
+  background: #eafaf1;
+  border-color: #a0d9b4;
+}
+.stat-approved .stat-number {
+  color: #1a7a3c;
+}
+.stat-approved .stat-label {
+  color: #1a7a3c;
+}
 
 /* ── History ──────────────────────────────────────────────── */
 .profile-history {
@@ -222,9 +240,21 @@
   white-space: nowrap;
 }
 
-.status-pending  { background: #fff8e6; color: #b07800; border: 1px solid #f0d080; }
-.status-approved { background: #eafaf1; color: #1a7a3c; border: 1px solid #a0d9b4; }
-.status-rejected { background: #fef0f0; color: #c0392b; border: 1px solid #f5b7b1; }
+.status-pending {
+  background: #fff8e6;
+  color: #b07800;
+  border: 1px solid #f0d080;
+}
+.status-approved {
+  background: #eafaf1;
+  color: #1a7a3c;
+  border: 1px solid #a0d9b4;
+}
+.status-rejected {
+  background: #fef0f0;
+  color: #c0392b;
+  border: 1px solid #f5b7b1;
+}
 
 /* ── Mobile ───────────────────────────────────────────────── */
 @media (max-width: 600px) {

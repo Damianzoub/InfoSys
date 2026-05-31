@@ -1,50 +1,52 @@
-import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { getStats, getReport } from '../services/adminService';
-import './AdminPanelPage.css';
+import { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { getStats, getReport } from '../services/adminService'
+import './AdminPanelPage.css'
 
 const STATUS_LABEL = {
   pending: 'Εκκρεμεί',
   approved: 'Εγκρίθηκε',
   rejected: 'Απορρίφθηκε',
-};
+}
 
 export default function AdminPanelPage() {
-  const navigate = useNavigate();
-  const [stats, setStats] = useState(null);
-  const [report, setReport] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState('');
+  const navigate = useNavigate()
+  const [stats, setStats] = useState(null)
+  const [report, setReport] = useState(null)
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState('')
 
-  const stored = localStorage.getItem('user');
-  const user = stored ? JSON.parse(stored) : null;
+  const stored = localStorage.getItem('user')
+  const user = stored ? JSON.parse(stored) : null
 
   useEffect(() => {
     if (!user || user.role !== 'admin') {
-      navigate('/auth');
-      return;
+      navigate('/auth')
+      return
     }
-    let isCancelled = false;
+    let isCancelled = false
 
     async function load() {
       try {
-        setLoading(true);
-        setError('');
-        const [statsData, reportData] = await Promise.all([getStats(), getReport()]);
+        setLoading(true)
+        setError('')
+        const [statsData, reportData] = await Promise.all([getStats(), getReport()])
         if (!isCancelled) {
-          setStats(statsData);
-          setReport(reportData);
+          setStats(statsData)
+          setReport(reportData)
         }
       } catch {
-        if (!isCancelled) setError('Αποτυχία φόρτωσης δεδομένων.');
+        if (!isCancelled) setError('Αποτυχία φόρτωσης δεδομένων.')
       } finally {
-        if (!isCancelled) setLoading(false);
+        if (!isCancelled) setLoading(false)
       }
     }
 
-    load();
-    return () => { isCancelled = true; };
-  }, [navigate, user]);
+    load()
+    return () => {
+      isCancelled = true
+    }
+  }, [navigate, user])
 
   if (loading) {
     return (
@@ -52,7 +54,7 @@ export default function AdminPanelPage() {
         <h1 className="page-title">Πίνακας Διαχείρισης</h1>
         <p className="loading-text">Φόρτωση...</p>
       </div>
-    );
+    )
   }
 
   return (
@@ -149,9 +151,7 @@ export default function AdminPanelPage() {
                       <td>{a.shelter_name}</td>
                       <td>{a.applicant_name}</td>
                       <td>
-                        <span className={`status-pill ${a.status}`}>
-                          {STATUS_LABEL[a.status]}
-                        </span>
+                        <span className={`status-pill ${a.status}`}>{STATUS_LABEL[a.status]}</span>
                       </td>
                       <td className="cell-date">
                         {new Date(a.created_at).toLocaleDateString('el-GR')}
@@ -169,5 +169,5 @@ export default function AdminPanelPage() {
         </>
       )}
     </div>
-  );
+  )
 }
