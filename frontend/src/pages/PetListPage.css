@@ -24,8 +24,8 @@
 }
 
 .filters-bar select,
-.filters-bar input[type="text"],
-.filters-bar input[type="number"] {
+.filters-bar input[type='text'],
+.filters-bar input[type='number'] {
   padding: 0.45rem 0.75rem;
   border: 1px solid var(--border);
   border-radius: 7px;
@@ -88,7 +88,9 @@
   text-decoration: none;
   color: inherit;
   background: var(--bg);
-  transition: box-shadow 0.2s, transform 0.15s;
+  transition:
+    box-shadow 0.2s,
+    transform 0.15s;
 }
 
 .pet-card:hover {

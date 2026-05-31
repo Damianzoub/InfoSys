@@ -1,47 +1,40 @@
-import "./AuthPage.css"
+import './AuthPage.css'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
 
-function AuthPage()
-{
+function AuthPage() {
   const navigate = useNavigate()
   //mode for switching between login/register form
   const [mode, setMode] = useState('login')
   //message shown under the forms
   const [message, setMessage] = useState('')
   //login form data
-  const [loginForm, setLoginForm] = useState(
-  {
+  const [loginForm, setLoginForm] = useState({
     email: '',
     password: '',
   })
 
   //register form data
-  const [registerForm, setRegisterForm] = useState(
-  {
+  const [registerForm, setRegisterForm] = useState({
     name: '',
     email: '',
     password: '',
   })
 
   //login function
-  async function handleLogin(e)
-  {
+  async function handleLogin(e) {
     //stop page refresh after submit
     e.preventDefault()
     //simple validation check
-    if(!loginForm.email || !loginForm.password)
-    {
+    if (!loginForm.email || !loginForm.password) {
       setMessage('Please fill all login fields.')
       return
     }
 
-    try
-    {
+    try {
       //send login data to backend api
-      const response = await axios.post('http://localhost:8000/api/auth/login',
-      {
+      const response = await axios.post('http://localhost:8000/api/auth/login', {
         email: loginForm.email,
         password: loginForm.password,
       })
@@ -51,66 +44,51 @@ function AuthPage()
       localStorage.setItem('token', response.data.token)
       localStorage.setItem('user', JSON.stringify(response.data.user))
       navigate('/pets')
-    }
-    //if request fails
-    catch(error)
-    {
-      if(error.response && error.response.data && error.response.data.error)
-      {
+    } catch (error) {
+      //if request fails
+      if (error.response && error.response.data && error.response.data.error) {
         setMessage(error.response.data.error)
-      }
-      else
-      {
+      } else {
         setMessage('Login failed.')
       }
     }
   }
 
   //register function
-  async function handleRegister(e)
-  {
+  async function handleRegister(e) {
     //stop normal form submit
     e.preventDefault()
     //validation check
-    if(!registerForm.name || !registerForm.email || !registerForm.password)
-    {
+    if (!registerForm.name || !registerForm.email || !registerForm.password) {
       setMessage('Please fill all register fields.')
       return
     }
 
-    try
-    {
+    try {
       //send register data to backend api
-      const response = await axios.post('http://localhost:8000/api/auth/register',
-      {
+      const response = await axios.post('http://localhost:8000/api/auth/register', {
         name: registerForm.name,
         email: registerForm.email,
         password: registerForm.password,
       })
       //print response in browser console
       console.log(response.data)
-      
+
       localStorage.setItem('token', response.data.token)
       localStorage.setItem('user', JSON.stringify(response.data.user))
       navigate('/pets')
-    }
-    //if request fails
-    catch(error)
-    {
-      if(error.response && error.response.data && error.response.data.error)
-      {
+    } catch (error) {
+      //if request fails
+      if (error.response && error.response.data && error.response.data.error) {
         setMessage(error.response.data.error)
-      }
-      else
-      {
+      } else {
         setMessage('Register failed.')
       }
     }
   }
 
   const [moveX, setMoveX] = useState(0)
-  function handleMouseMove(e)
-  {
+  function handleMouseMove(e) {
     const rect = e.currentTarget.getBoundingClientRect()
     const x = e.clientX - rect.left
     const center = rect.width / 2
@@ -118,20 +96,17 @@ function AuthPage()
     setMoveX(offset * 8)
   }
   //jsx ui
-  return(
+  return (
     <div className="auth-page">
       {/*<div className="paw-bg paw1"></div>
       <div className="paw-bg paw2"></div>
       <div className="paw-bg paw3"></div>*/}
       <div className="auth-card" onMouseMove={handleMouseMove}>
         {/* left side */}
-        <div className="auth-left"  style={{transform: `translateX(${moveX}px)`}}>
+        <div className="auth-left" style={{ transform: `translateX(${moveX}px)` }}>
           <div>
             <h2>Welcome Back</h2>
-            <p>
-              Please login or create an account
-              to continue.
-            </p>
+            <p>Please login or create an account to continue.</p>
           </div>
         </div>
 
@@ -140,12 +115,13 @@ function AuthPage()
           <h1>Pet Adoption Platform</h1>
 
           <div className="auth-tabs">
-
             {/*button for login mode */}
             <button
               className={mode === 'login' ? 'active-tab' : ''}
               onClick={() => setMode('login')}
-            > Login
+            >
+              {' '}
+              Login
             </button>
 
             {/* button for register mode */}
@@ -158,8 +134,7 @@ function AuthPage()
           </div>
 
           {/* show login form only if mode is login */}
-          {mode=== 'login' &&
-          (
+          {mode === 'login' && (
             <form onSubmit={handleLogin}>
               <h2>Login</h2>
 
@@ -170,8 +145,7 @@ function AuthPage()
                 value={loginForm.email}
                 //update login email
                 onChange={(e) =>
-                  setLoginForm(
-                  {
+                  setLoginForm({
                     ...loginForm,
                     email: e.target.value,
                   })
@@ -185,23 +159,19 @@ function AuthPage()
                 value={loginForm.password}
                 //update login password
                 onChange={(e) =>
-                  setLoginForm(
-                  {
+                  setLoginForm({
                     ...loginForm,
                     password: e.target.value,
                   })
                 }
               />
 
-              <button type="submit">
-                Login
-              </button>
+              <button type="submit">Login</button>
             </form>
           )}
 
           {/* show register form only if mode is register */}
-          {mode === 'register' &&
-          (
+          {mode === 'register' && (
             <form onSubmit={handleRegister}>
               <h2>Register</h2>
 
@@ -212,8 +182,7 @@ function AuthPage()
                 value={registerForm.name}
                 //update register name
                 onChange={(e) =>
-                  setRegisterForm(
-                  {
+                  setRegisterForm({
                     ...registerForm,
                     name: e.target.value,
                   })
@@ -227,8 +196,7 @@ function AuthPage()
                 value={registerForm.email}
                 //update register email
                 onChange={(e) =>
-                  setRegisterForm(
-                  {
+                  setRegisterForm({
                     ...registerForm,
                     email: e.target.value,
                   })
@@ -242,24 +210,19 @@ function AuthPage()
                 value={registerForm.password}
                 //update register password
                 onChange={(e) =>
-                  setRegisterForm(
-                  {
+                  setRegisterForm({
                     ...registerForm,
                     password: e.target.value,
                   })
                 }
               />
 
-              <button type="submit">
-                Register
-              </button>
+              <button type="submit">Register</button>
             </form>
           )}
 
           {/* feedback message */}
-          <p className="auth-message">
-            {message}
-          </p>
+          <p className="auth-message">{message}</p>
         </div>
       </div>
     </div>

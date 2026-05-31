@@ -97,7 +97,7 @@
 }
 
 /* Submit Button */
-.adoption-right button[type="submit"] {
+.adoption-right button[type='submit'] {
   padding: 0.65rem 1.5rem;
   background: var(--accent);
   color: #fff;
@@ -106,16 +106,18 @@
   font-size: 1rem;
   font-weight: 600;
   cursor: pointer;
-  transition: opacity 0.2s, transform 0.2s;
+  transition:
+    opacity 0.2s,
+    transform 0.2s;
   align-self: flex-start;
 }
 
-.adoption-right button[type="submit"]:hover:not(:disabled) {
+.adoption-right button[type='submit']:hover:not(:disabled) {
   opacity: 0.88;
   transform: translateY(-2px);
 }
 
-.adoption-right button[type="submit"]:disabled {
+.adoption-right button[type='submit']:disabled {
   opacity: 0.5;
   cursor: not-allowed;
 }
@@ -182,7 +184,7 @@
     font-size: 1.25rem;
   }
 
-  .adoption-right button[type="submit"] {
+  .adoption-right button[type='submit'] {
     width: 100%;
   }
 }

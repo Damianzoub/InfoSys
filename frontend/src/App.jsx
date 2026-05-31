@@ -7,7 +7,6 @@ import ProfilePage from './pages/ProfilePage'
 import MyAdoptionsPage from './pages/MyAdoptionsPage'
 import ShelterDashboardPage from './pages/ShelterDashboardPage'
 import AdminPanelPage from './pages/AdminPanelPage'
-import AdoptionForm from "./pages/AdoptionForm";
 import './App.css'
 
 function App() {
