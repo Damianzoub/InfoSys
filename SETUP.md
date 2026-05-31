@@ -84,12 +84,25 @@ docker-compose up -d postgres
 cd backend
 npm run db:init
 
-# 4. Start the backend in dev mode
+# 4. Seed sample data — animals + shelter accounts (run once)
+npm run db:seed
+
+# 5. Start the backend in dev mode
 npm run dev
 ```
 
 The backend will be available at `http://localhost:8000`.  
 Health check: `http://localhost:8000/health`
+
+> **Seeded test accounts** (after `db:seed`):
+>
+> | Role | Email | Password |
+> |------|-------|----------|
+> | Admin | `admin@test.com` | `admin123` |
+> | Shelter 1 | `shelter.athina@petadopt.gr` | `shelter123` |
+> | Shelter 2 | `sos.animals@petadopt.gr` | `shelter123` |
+>
+> The admin account must be created separately — see README for the `curl` command.
 
 ---
 

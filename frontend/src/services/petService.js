@@ -4,6 +4,11 @@ import { mockPets, mockPetDetails } from '../data/mockPets';
 const DATA_SOURCE = (import.meta.env.VITE_PET_DATA_SOURCE || 'mock').toLowerCase();
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000';
 
+function authHeaders() {
+  const token = localStorage.getItem('token');
+  return token ? { Authorization: `Bearer ${token}` } : {};
+}
+
 function normalizeText(value) {
   return String(value)
     .normalize('NFD')
@@ -30,26 +35,43 @@ function filterMockPets(filters = {}) {
 }
 
 export async function getPets(filters = {}) {
+  // Try API first if configured
   if (DATA_SOURCE === 'api') {
-    const { data } = await axios.get(`${API_BASE_URL}/api/pets`, {
-      params: {
-        species: filters.species || undefined,
-        gender: filters.gender || undefined,
-        age: filters.age || undefined,
-        location: filters.location || undefined,
-      },
-    });
-    return data;
+    try {
+      const { data } = await axios.get(`${API_BASE_URL}/api/pets`, {
+        params: {
+          species: filters.species || undefined,
+          gender: filters.gender || undefined,
+          age: filters.age || undefined,
+          location: filters.location || undefined,
+        },
+        headers: authHeaders(),
+      });
+      return data;
+    } catch (err) {
+      console.warn('API call failed, falling back to mock data:', err.message);
+      // Fall through to mock data
+    }
   }
 
+  // Use mock data
   return filterMockPets(filters);
 }
 
 export async function getPetById(id) {
+  // Try API first if configured
   if (DATA_SOURCE === 'api') {
-    const { data } = await axios.get(`${API_BASE_URL}/api/pets/${id}`);
-    return data;
+    try {
+      const { data } = await axios.get(`${API_BASE_URL}/api/pets/${id}`, {
+        headers: authHeaders(),
+      });
+      return data;
+    } catch (err) {
+      console.warn(`API call for pet ${id} failed, falling back to mock data:`, err.message);
+      // Fall through to mock data
+    }
   }
 
+  // Use mock data
   return mockPetDetails[Number(id)] || null;
 }

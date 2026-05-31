@@ -243,23 +243,37 @@ docs(planning): update API contract
 
 ---
 
-## Sprint Retrospective (template — συμπληρώνεται στο τέλος)
+## Sprint Retrospective
 
 ### Τι πήγε καλά
-- 
-- 
+
+- Η σαφής κατανομή ρόλων (Scrum Master + 4 Team Members) μείωσε τις συγκρούσεις στο git — κάθε μέλος δούλευε σε διαφορετικό feature branch
+- Το API spec (`docs/api-spec.md`) που ορίστηκε στη Φάση 0 επέτρεψε στο frontend να δουλεύει με mock data παράλληλα με το backend, χωρίς blocking εξαρτήσεις
+- Η χρήση JWT + role-based middleware (`requireRole`) κάλυψε όλα τα authorization σενάρια (user, shelter, admin) με ενιαίο τρόπο
+- Τα Coding Agent tools (Claude Code) επιτάχυναν σημαντικά την παραγωγή boilerplate κώδικα (routes, CSS, SQL queries)
+- Το mock/API toggle (`VITE_PET_DATA_SOURCE`) επέτρεψε στο frontend team να δουλεύει ανεξάρτητα μέχρι το backend να είναι έτοιμο
 
 ### Τι δυσκόλεψε
-- 
-- 
+
+- Το Docker/Colima δεν λειτούργησε αρχικά λόγω έλλειψης disk space — χρειάστηκε εναλλακτική λύση με brew PostgreSQL για local development
+- Το SSL certificate πρόβλημα με το GitHub (`git pull` failed) λόγω λανθασμένης ημερομηνίας συστήματος δυσκόλεψε τη συνεργασία
+- Μερικά routes (auth, shelter) δεν είχαν υλοποιηθεί αρχικά στο `app.js` (ήταν commented out), με αποτέλεσμα 404 σφάλματα κατά τη σύνδεση frontend-backend
+- Η PostgreSQL δεν εκκινούσε αυτόματα μετά την εγκατάσταση — χρειάστηκε χειροκίνητη εκτέλεση `initdb`
 
 ### Coding Agents — βοήθεια ή εμπόδιο;
-- 
-- 
+
+- **Βοήθεια:** Παραγωγή SQL queries με JOINs πολλών πινάκων (pets + shelters + photos) χωρίς λάθη — κέρδος ώρων δουλειάς
+- **Βοήθεια:** Γρήγορη δημιουργία React components με σωστό state management (useEffect cleanup, isCancelled pattern)
+- **Βοήθεια:** Cross-platform διορθώσεις (π.χ. db:init script που δεν δούλευε σε Mac χωρίς psql στο PATH)
+- **Προσοχή:** Ο παραγόμενος κώδικας χρειαζόταν πάντα review — κυρίως για να ταιριάζει με το ακριβές API spec και το DB schema της ομάδας
+- **Προσοχή:** Τα CSS που παράγονταν χρειάζονταν μικρές αλλαγές για consistency με το υπάρχον design system (χρώματα, border-radius)
 
 ### Τι θα κάναμε διαφορετικά στο επόμενο Sprint
-- 
-- 
+
+- Να στήσουμε το Docker environment **πριν** ξεκινήσει η ανάπτυξη, ώστε όλα τα μέλη να έχουν ίδιο περιβάλλον από την αρχή
+- Να ορίσουμε shared test accounts (email/password) στο `docs/` για να μπορεί κάθε μέλος να δοκιμάσει τα endpoints χωρίς να φτιάχνει δικά του δεδομένα
+- Να χρησιμοποιούμε feature flags πιο συστηματικά αντί για commented-out code στο `app.js`
+- Να γράφουμε τα `docs/prompts-<AM>.md` entries **αμέσως** μετά από κάθε Coding Agent session, όχι αναδρομικά στο τέλος
 
 ---
 

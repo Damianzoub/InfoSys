@@ -1,15 +1,28 @@
 const path = require('path');
+const fs = require('fs');
 require('dotenv').config({ path: path.resolve(__dirname, '../.env') });
 
-const { execSync } = require('child_process');
+const { Pool } = require('pg');
 
 const url = process.env.DATABASE_URL;
 if (!url) {
-    console.error('ERROR: DATABASE_URL is not set. Copy .env.example to .env and fill it in.');
-    process.exit(1);
+  console.error('ERROR: DATABASE_URL is not set. Copy .env.example to .env and fill it in.');
+  process.exit(1);
 }
 
-const schema = path.resolve(__dirname, '../src/db/schema.sql');
-console.log(`Running schema against: ${url}`);
+const pool = new Pool({ connectionString: url, ssl: { rejectUnauthorized: false } });
+const schema = fs.readFileSync(path.resolve(__dirname, '../src/db/schema.sql'), 'utf8');
 
-execSync(`psql "${url}" -f "${schema}"`, { stdio: 'inherit' });
+pool.connect()
+  .then(client => {
+    console.log(`Running schema against: ${url}`);
+    return client.query(schema).then(() => {
+      console.log('Schema applied successfully.');
+      client.release();
+    });
+  })
+  .catch(err => {
+    console.error('Schema error:', err.message);
+    process.exit(1);
+  })
+  .finally(() => pool.end());

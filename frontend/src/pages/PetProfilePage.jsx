@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, Link, useNavigate } from 'react-router-dom';
 import { getPetById } from '../services/petService';
 import './PetProfilePage.css';
 import AdoptionForm from "./AdoptionForm"
@@ -10,10 +10,15 @@ const SPECIES_LABEL = { dog: 'Σκύλος', cat: 'Γάτα', rabbit: 'Κουν�
 
 export default function PetProfilePage() {
   const { id } = useParams();
+  const navigate = useNavigate();
   const [pet, setPet] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [showAdoptionForm, setShowAdoptionForm] = useState(false);
+
+  const stored = localStorage.getItem('user');
+  const user = stored ? JSON.parse(stored) : null;
+  const role = user?.role;
 
   useEffect(() => {
     let isCancelled = false;
@@ -71,6 +76,18 @@ export default function PetProfilePage() {
     );
   }
 
+  if (pet.status === 'adopted') {
+    return (
+      <div className="pet-profile-page not-found">
+        <h2>❌ Το ζώο έχει ήδη υιοθετηθεί</h2>
+        <p style={{ color: '#888', marginBottom: '16px' }}>
+          Ο/Η <strong>{pet.name}</strong> βρήκε οικογένεια. Δες άλλα ζώα που περιμένουν!
+        </p>
+        <Link to="/pets" className="btn-back">← Πίσω στη λίστα</Link>
+      </div>
+    );
+  }
+
   return (
     <div className="pet-profile-page">
       <Link to="/pets" className="btn-back">← Πίσω στη λίστα</Link>
@@ -117,12 +134,31 @@ export default function PetProfilePage() {
 
           {pet.status === 'available' && (
             <div className="profile-adopt-cta">
-              <p className="cta-note">
-                Θέλεις να υιοθετήσεις τον/την <strong>{pet.name}</strong>; Σύνδεσου για να υποβάλεις αίτηση.
-              </p>
-              <button className="btn-adopt" onClick={() => setShowAdoptionForm(true)}>
-                Υποβολή αίτησης υιοθεσίας
-              </button>
+              {!user && (
+                <>
+                  <p className="cta-note">
+                    Θέλεις να υιοθετήσεις τον/την <strong>{pet.name}</strong>; Σύνδεσου για να υποβάλεις αίτηση.
+                  </p>
+                  <button className="btn-adopt" onClick={() => navigate('/auth')}>
+                    Σύνδεση / Εγγραφή
+                  </button>
+                </>
+              )}
+              {(role === 'shelter' || role === 'admin') && (
+                <p className="cta-note">
+                  Μόνο απλοί χρήστες μπορούν να υποβάλουν αίτηση υιοθεσίας.
+                </p>
+              )}
+              {role === 'user' && (
+                <>
+                  <p className="cta-note">
+                    Θέλεις να υιοθετήσεις τον/την <strong>{pet.name}</strong>;
+                  </p>
+                  <button className="btn-adopt" onClick={() => setShowAdoptionForm(true)}>
+                    Υποβολή αίτησης υιοθεσίας
+                  </button>
+                </>
+              )}
             </div>
           )}
         </div>

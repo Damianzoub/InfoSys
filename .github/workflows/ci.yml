@@ -1,36 +1,56 @@
 name: Backend CI
 
-on: 
-    pull_request:
-        branches: [main,develop]
-    push:
-        branches: 
-            - develop
-            - "feature/**"
-            - "bugfix/**"
-            - "docs/**"
+on:
+  pull_request:
+    branches: [main, develop]
+  push:
+    branches:
+      - develop
+      - "feature/**"
+      - "bugfix/**"
+      - "docs/**"
+
 jobs:
-    quality-checks:
-        runs-on: ubuntu-latest
-        steps:
-            - name: Checkout repository
-              uses: actions/checkout@v4
-            
-            - name: Set up Python
-              uses: actions/setup-python@v5
-              with:
-                python-version: "3.11"
-            
-            - name: Install backend dependencies
-              run: |
-                if [ -f backend/requirements.txt ]; then
-                    pip install -r backend/requirements.txt
-                else
-                    echo "No requirements.txt found"
-                fi
-            - name: Test placeholder
-              run: |
-                echo "Add pytest here"
-            
-            - name: Validate docker compose
-              run: docker compose config
+  test:
+    name: Unit & Integration Tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: "npm"
+          cache-dependency-path: backend/package-lock.json
+
+      - name: Install backend dependencies
+        working-directory: backend
+        run: npm ci
+
+      - name: Run tests with coverage
+        working-directory: backend
+        env:
+          JWT_SECRET: test-secret-ci
+          NODE_ENV: test
+        run: npm run test:ci
+
+      - name: Upload coverage report
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: coverage-report
+          path: backend/coverage/
+
+  docker-validate:
+    name: Validate Docker Compose
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Validate docker-compose config
+        run: docker compose config --quiet
