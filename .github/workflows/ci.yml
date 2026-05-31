@@ -67,11 +67,9 @@ jobs:
         working-directory: frontend
         run: npm run lint
 
-      # Prettier formatting check will be enabled after applying formatting
-      # across the frontend codebase.
-      # - name: Check Prettier formatting
-      #   working-directory: frontend
-      #   run: npm run format:check
+      - name: Check Prettier formatting
+        working-directory: frontend
+        run: npm run format:check
 
   docker-validate:
     name: Validate Docker Compose
