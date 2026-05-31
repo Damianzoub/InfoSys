@@ -42,7 +42,7 @@ export default function ShelterDashboardPage() {
 
     load();
     return () => { isCancelled = true; };
-  }, []);
+  }, [navigate, user]);
 
   async function handleAction(id, status) {
     try {

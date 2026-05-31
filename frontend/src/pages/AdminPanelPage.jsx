@@ -44,7 +44,7 @@ export default function AdminPanelPage() {
 
     load();
     return () => { isCancelled = true; };
-  }, []);
+  }, [navigate, user]);
 
   if (loading) {
     return (
