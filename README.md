@@ -94,6 +94,29 @@
 
 ---
 
+## Continuous Integration (CI)
+
+Το έργο χρησιμοποιεί GitHub Actions για αυτοματοποιημένο έλεγχο ποιότητας κώδικα και επικύρωση της εφαρμογής σε κάθε Push ή Pull Request.
+
+## Pipeline Έλεγχοι
+Το CI pipeline εκτελεί:
+- Backend Unit & Integration Tests
+- Coverage Report Generation
+- ESLint Code Quality Checks
+- Prettier Formatting Validation
+- Frontend Build Validation
+- Docker Compose Configuration Validation
+
+## Code Quality
+Για τη διασφάλιση ποιότητας κώδικα χρησιμοποιούνται:
+- ESLint για στατικό έλεγχο JavaScript / React κώδικα
+- Prettier για ενιαία μορφοποίηση κώδικα
+- GitHub Actions για αυτοματοποιημένο έλεγχο πριν την ενσωμάτωση αλλαγών
+
+## Secrets Management
+Τα ευαίσθητα δεδομένα δεν αποθηκεύονται στον πηγαίο κώδικα.
+Χρησιμοποιούνται αρχεία περιβάλλοντος (.env) τα οποία εξαιρούνται από το αποθετήριο μέσω των κατάλληλων ρυθμίσεων.
+
 ## Οδηγίες Εκκίνησης
 
 ## Επιλογή Α — Με Docker (συνιστάται)

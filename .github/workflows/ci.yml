@@ -70,6 +70,10 @@ jobs:
       - name: Check Prettier formatting
         working-directory: frontend
         run: npm run format:check
+      
+      - name: Build frontend
+        working-directory: frontend
+        run: npm run build
 
   docker-validate:
     name: Validate Docker Compose
