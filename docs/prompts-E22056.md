@@ -350,3 +350,93 @@
 - [x] Context-first prompting (ελέγχθηκαν backend routes + frontend pages πριν την αλλαγή)
 - [x] Review πριν commit
 - [ ] Iterative (1 βήμα)
+
+---
+
+## 2026-05-30 — Claude Code (α)
+
+**Task:** — CI/CD Pipeline + GitHub Actions (cd.yml + ci.yml)  
+**Platform:** Claude Code (CLI)
+
+**Prompt:**
+> Act as a Senior DevOps Engineer. I have a Node.js + Express backend with a Dockerfile and a React/Vite frontend. Write two GitHub Actions workflows: ci.yml (runs on feature branches and PRs — installs deps, runs jest --ci --coverage, uploads coverage artifact, validates docker-compose.yml) and cd.yml (runs on push to main — logs in to GHCR, extracts docker metadata with sha and latest tags, builds and pushes the backend Docker image from backend/Dockerfile).
+
+**Αποτέλεσμα:**
+
+- Παρήγαγε `.github/workflows/ci.yml` με jobs `test` και `docker-validate`
+- Παρήγαγε `.github/workflows/cd.yml` που χτίζει και ωθεί το Docker image στο GHCR
+- Χρησιμοποιεί `docker/metadata-action` για dual tagging: `latest` και `sha-<commit>`
+- Το `GITHUB_TOKEN` χρησιμοποιείται για authentication — δεν χρειάζονται stored secrets
+
+**Ορθές πρακτικές που ακολουθήθηκαν:**
+
+- [x] Context-first prompting (δόθηκε η δομή του repo + τι workflows χρειάζονταν)
+- [x] Review πριν commit (έλεγχος permissions, trigger branches)
+- [x] Iterative (2 iterations για να διαχωριστεί CI από CD)
+
+---
+
+## 2026-05-30 — Claude Code (β)
+
+**Task:** — Render Blueprint + Railway deployment configuration  
+**Platform:** Claude Code (CLI)
+
+**Prompt:**
+> Create a render.yaml Blueprint for the full stack: PostgreSQL database (free tier), backend Express API as a Docker web service with DATABASE_URL injected from the database, JWT_SECRET generated automatically, NODE_ENV=production. Frontend as a static site from the frontend/ directory using npm run build, publishing dist/, with SPA rewrite rule for React Router. Also create backend/railway.toml for Railway deployment: Dockerfile builder, healthcheck on /health, restart on failure.
+
+**Αποτέλεσμα:**
+
+- Παρήγαγε `render.yaml` με PostgreSQL + backend + frontend
+- Παρήγαγε `backend/railway.toml` με Dockerfile builder, healthcheck και restart policy
+- Διορθώθηκαν iteratively 3 σφάλματα Render Blueprint validation: reserved username `postgres`, invalid `plan: free` για web services, `env` → `runtime` για static sites
+
+**Ορθές πρακτικές που ακολουθήθηκαν:**
+
+- [x] Context-first prompting
+- [x] Review πριν commit (δοκιμή μέσω Render dashboard UI)
+- [x] Iterative (3 iterations για Blueprint validation)
+
+---
+
+## 2026-05-30 — Claude Code (γ)
+
+**Task:** — db-init.js rewrite για Alpine Docker environment  
+**Platform:** Claude Code (CLI)
+
+**Prompt:**
+> The existing scripts/db-init.js shells out to psql using execSync, but psql is not installed in the node:22-alpine Docker image. Rewrite db-init.js to use the pg npm package directly: load the schema.sql file with fs.readFileSync, connect with new Pool({ connectionString, ssl: { rejectUnauthorized: false } }), run client.query(schema), log success and exit. Keep the same file path and the same DATABASE_URL validation logic.
+
+**Αποτέλεσμα:**
+
+- Αντικατέστησε το `execSync('psql ...')` με `pg Pool` + `client.query(schema)`
+- Προστέθηκε `ssl: { rejectUnauthorized: false }` για Railway's managed PostgreSQL
+- Το schema εφαρμόστηκε επιτυχώς: `GET /api/pets` επιστρέφει `[]` (δεν υπάρχει πλέον SQL error)
+
+**Ορθές πρακτικές που ακολουθήθηκαν:**
+
+- [x] Context-first prompting (εντοπίστηκε ακριβώς γιατί crashαρε το Alpine container)
+- [x] Review πριν commit
+- [x] Iterative (2 iterations — πρώτα νέο αρχείο, μετά αντικατάσταση του αρχικού)
+
+---
+
+## 2026-05-30 — Claude Code (δ)
+
+**Task:** — Frontend deployment σε Railway με Caddyfile  
+**Platform:** Claude Code (CLI)
+
+**Prompt:**
+> The React/Vite frontend needs to be deployed on Railway. Railway auto-detects it as a Vite static site and serves it with Caddy. Two problems: (1) the frontend/package-lock.json is out of sync with package.json — npm ci fails with missing @emnapi packages. (2) React Router routes return 404 on page refresh because Caddy doesn't know to fall back to index.html. Fix both: run npm install in frontend/ to regenerate the lock file, and create a frontend/Caddyfile that uses try_files {path} /index.html and binds to :{$PORT:80} for Railway's dynamic port.
+
+**Αποτέλεσμα:**
+
+- Ενημερώθηκε το `frontend/package-lock.json` με `npm install`
+- Δημιουργήθηκε `frontend/Caddyfile` με `try_files` για SPA routing και `:{$PORT:80}` για Railway
+- Το frontend είναι live στο `https://infosys-production-e27a.up.railway.app`
+- Το backend είναι live στο `https://pet-adoption-frontend-production-c743.up.railway.app`
+
+**Ορθές πρακτικές που ακολουθήθηκαν:**
+
+- [x] Context-first prompting (δόθηκαν τα Railway build logs που έδειχναν το σφάλμα)
+- [x] Review πριν commit (επαλήθευση με `curl` ότι `/`, `/pets`, `/login` επιστρέφουν 200)
+- [x] Iterative (2 iterations — πρώτα port 80 hardcoded, μετά `:{$PORT:80}` για Railway)
