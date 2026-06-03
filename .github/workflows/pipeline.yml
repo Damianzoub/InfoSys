@@ -1,0 +1,46 @@
+name: Pet Adoption CI/CD Pipeline
+
+on:
+  push:
+    branches: [ "main", "Christos" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 📥 Checkout repository
+        uses: actions/checkout@v3
+
+      - name: ⚙️ Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          # ΑΛΛΑΞΑΜΕ ΤΗΝ ΕΚΔΟΣΗ ΣΕ 22 ΕΔΩ!
+          node-version: '22'
+
+      - name: 📦 Install Backend Dependencies
+        working-directory: ./backend
+        run: npm install
+
+      - name: 🧪 Run Backend Tests
+        working-directory: ./backend
+        env:
+          JWT_SECRET: supersecretkeyfortesting
+        run: npm test
+
+      - name: 📦 Install Frontend Dependencies & Build
+        working-directory: ./frontend
+        run: |
+          npm install
+          npm run build
+
+  deploy:
+    needs: build-and-test
+    runs-on: ubuntu-latest
+    steps:
+      - name: 🚀 Simulate Deployment
+        run: |
+          echo "Τα tests πέρασαν επιτυχώς. Το Build ολοκληρώθηκε."
+          echo "Simulating deployment to production server..."
