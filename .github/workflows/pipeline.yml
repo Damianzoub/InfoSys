@@ -10,7 +10,7 @@ jobs:
   build-and-test:
     runs-on: ubuntu-latest
 
-    # Εδώ στήνουμε την προσωρινή Βάση Δεδομένων για τα tests!
+    # Στήσιμο εικονικής Βάσης Δεδομένων
     services:
       postgres:
         image: postgres:14
@@ -42,23 +42,17 @@ jobs:
       - name: 🗄️ Initialize Database Schema
         working-directory: ./backend
         env:
-          PGUSER: testuser
-          PGPASSWORD: testpassword
-          PGHOST: localhost
-          PGPORT: 5432
-          PGDATABASE: petadoption_test
+          # Εδώ προσθέσαμε το DATABASE_URL που ζητάει!
+          DATABASE_URL: postgresql://testuser:testpassword@localhost:5432/petadoption_test
         run: npm run db:init
 
       - name: 🧪 Run Backend Tests
         working-directory: ./backend
         env:
-          PGUSER: testuser
-          PGPASSWORD: testpassword
-          PGHOST: localhost
-          PGPORT: 5432
-          PGDATABASE: petadoption_test
+          # Το περνάμε και στα tests για να μπορούν να συνδεθούν
+          DATABASE_URL: postgresql://testuser:testpassword@localhost:5432/petadoption_test
           JWT_SECRET: supersecretkeyfortesting
-        run: npm run test
+        run: npm test
 
       - name: 📦 Install Frontend Dependencies & Build
         working-directory: ./frontend
