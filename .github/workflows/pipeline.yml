@@ -1,0 +1,76 @@
+name: Pet Adoption CI/CD Pipeline
+
+on:
+  push:
+    branches: [ "main", "Christos" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    # Εδώ στήνουμε την προσωρινή Βάση Δεδομένων για τα tests!
+    services:
+      postgres:
+        image: postgres:14
+        env:
+          POSTGRES_USER: testuser
+          POSTGRES_PASSWORD: testpassword
+          POSTGRES_DB: petadoption_test
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+      - name: 📥 Checkout repository
+        uses: actions/checkout@v3
+
+      - name: ⚙️ Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      - name: 📦 Install Backend Dependencies
+        working-directory: ./backend
+        run: npm install
+
+      - name: 🗄️ Initialize Database Schema
+        working-directory: ./backend
+        env:
+          PGUSER: testuser
+          PGPASSWORD: testpassword
+          PGHOST: localhost
+          PGPORT: 5432
+          PGDATABASE: petadoption_test
+        run: npm run db:init
+
+      - name: 🧪 Run Backend Tests
+        working-directory: ./backend
+        env:
+          PGUSER: testuser
+          PGPASSWORD: testpassword
+          PGHOST: localhost
+          PGPORT: 5432
+          PGDATABASE: petadoption_test
+          JWT_SECRET: supersecretkeyfortesting
+        run: npm run test
+
+      - name: 📦 Install Frontend Dependencies & Build
+        working-directory: ./frontend
+        run: |
+          npm install
+          npm run build
+
+  deploy:
+    needs: build-and-test
+    runs-on: ubuntu-latest
+    steps:
+      - name: 🚀 Simulate Deployment
+        run: |
+          echo "Τα tests πέρασαν επιτυχώς. Το Build ολοκληρώθηκε."
+          echo "Simulating deployment to production server..."
