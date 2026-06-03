@@ -24,7 +24,9 @@
   background: var(--bg);
   border: 1px solid var(--border);
   border-radius: 12px;
-  transition: box-shadow 0.2s, transform 0.15s;
+  transition:
+    box-shadow 0.2s,
+    transform 0.15s;
 }
 
 .stat-card:hover {

@@ -1,0 +1,22 @@
+services:
+  # ── Frontend (React / Vite static build) ──────────────────────────────────
+  # Backend and database are deployed on Railway (see backend/railway.toml)
+  - type: web
+    name: pet-adoption-frontend
+    runtime: static
+    rootDir: frontend
+    buildCommand: npm install && npm run build
+    staticPublishPath: dist
+    autoDeploy: true
+    routes:
+      # Send all paths to index.html so React Router handles client-side routing
+      - type: rewrite
+        source: /*
+        destination: /index.html
+    envVars:
+      # Set this to the Railway backend URL after it is deployed
+      # e.g. https://pet-adoption-backend.up.railway.app
+      - key: VITE_API_BASE_URL
+        sync: false
+      - key: VITE_PET_DATA_SOURCE
+        value: api

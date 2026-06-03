@@ -1,62 +1,62 @@
-import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { getShelterRequests, updateRequestStatus } from '../services/adoptionService';
-import './ShelterDashboardPage.css';
+import { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { getShelterRequests, updateRequestStatus } from '../services/adoptionService'
+import './ShelterDashboardPage.css'
 
 const STATUS_LABEL = {
   pending: 'Εκκρεμεί',
   approved: 'Εγκρίθηκε',
   rejected: 'Απορρίφθηκε',
-};
+}
 
 export default function ShelterDashboardPage() {
-  const navigate = useNavigate();
-  const [requests, setRequests] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState('');
-  const [actionLoading, setActionLoading] = useState(null);
+  const navigate = useNavigate()
+  const [requests, setRequests] = useState([])
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState('')
+  const [actionLoading, setActionLoading] = useState(null)
 
-  const stored = localStorage.getItem('user');
-  const user = stored ? JSON.parse(stored) : null;
+  const stored = localStorage.getItem('user')
+  const user = stored ? JSON.parse(stored) : null
 
   useEffect(() => {
     if (!user || user.role !== 'shelter') {
-      navigate('/auth');
-      return;
+      navigate('/auth')
+      return
     }
 
-    let isCancelled = false;
+    let isCancelled = false
 
     async function load() {
       try {
-        setLoading(true);
-        setError('');
-        const data = await getShelterRequests();
-        if (!isCancelled) setRequests(data);
+        setLoading(true)
+        setError('')
+        const data = await getShelterRequests()
+        if (!isCancelled) setRequests(data)
       } catch {
-        if (!isCancelled) setError('Αποτυχία φόρτωσης αιτήσεων.');
+        if (!isCancelled) setError('Αποτυχία φόρτωσης αιτήσεων.')
       } finally {
-        if (!isCancelled) setLoading(false);
+        if (!isCancelled) setLoading(false)
       }
     }
 
-    load();
-    return () => { isCancelled = true; };
-  }, []);
+    load()
+    return () => {
+      isCancelled = true
+    }
+  }, [navigate, user])
 
   async function handleAction(id, status) {
     try {
-      setActionLoading(id);
-      await updateRequestStatus(id, status);
+      setActionLoading(id)
+      await updateRequestStatus(id, status)
       setRequests((prev) =>
-        prev.map((r) =>
-          r.id === id ? { ...r, status, updated_at: new Date().toISOString() } : r,
-        ),
-      );
+        prev.map((r) => (r.id === id ? { ...r, status, updated_at: new Date().toISOString() } : r)),
+      )
     } catch {
-      setError('Αποτυχία ενημέρωσης αίτησης.');
+      setError('Αποτυχία ενημέρωσης αίτησης.')
     } finally {
-      setActionLoading(null);
+      setActionLoading(null)
     }
   }
 
@@ -66,11 +66,11 @@ export default function ShelterDashboardPage() {
         <h1 className="page-title">Πίνακας Καταφυγίου</h1>
         <p className="loading-text">Φόρτωση αιτήσεων...</p>
       </div>
-    );
+    )
   }
 
-  const pending = requests.filter((r) => r.status === 'pending');
-  const resolved = requests.filter((r) => r.status !== 'pending');
+  const pending = requests.filter((r) => r.status === 'pending')
+  const resolved = requests.filter((r) => r.status !== 'pending')
 
   return (
     <div className="shelter-dashboard">
@@ -137,14 +137,12 @@ export default function ShelterDashboardPage() {
                     {new Date(r.created_at).toLocaleDateString('el-GR')}
                   </p>
                 </div>
-                <span className={`status-badge ${r.status}`}>
-                  {STATUS_LABEL[r.status]}
-                </span>
+                <span className={`status-badge ${r.status}`}>{STATUS_LABEL[r.status]}</span>
               </div>
             ))}
           </div>
         </section>
       )}
     </div>
-  );
+  )
 }

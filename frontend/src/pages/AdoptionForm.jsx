@@ -1,73 +1,61 @@
-import "./AdoptionForm.css"
-import { useState } from "react"
-import axios from "axios"
+import './AdoptionForm.css'
+import { useState } from 'react'
+import axios from 'axios'
 
-function AdoptionForm({ petId })
-{
+function AdoptionForm({ petId }) {
   //status message
   const [statusMessage, setStatusMessage] = useState('')
   //loading state
   const [loading, setLoading] = useState(false)
   //adoption form data
-  const [adoptionForm, setAdoptionForm] = useState(
-  {
+  const [adoptionForm, setAdoptionForm] = useState({
     adoptionMessage: '',
   })
 
   //submit adoption request
-  async function handleAdoption(e)
-  {
+  async function handleAdoption(e) {
     //stop page refresh
     e.preventDefault()
     //simple validation check
-    if(!adoptionForm.adoptionMessage)
-    {
+    if (!adoptionForm.adoptionMessage) {
       setStatusMessage('Please write a message.')
       return
     }
 
     setLoading(true)
 
-    try
-    {
+    try {
       //take token from local storage
       const token = localStorage.getItem('token')
       //send adoption request to backend api
       const response = await axios.post(
         'http://localhost:8000/api/adoptions',
 
-      {
-        pet_id: petId,
-        message: adoptionForm.adoptionMessage,
-      },
-
-      {
-        headers:
         {
-          Authorization: `Bearer ${token}`,
+          pet_id: petId,
+          message: adoptionForm.adoptionMessage,
         },
-      })
+
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      )
 
       //show response in browser console
       console.log(response.data)
       setStatusMessage('Adoption request sent successfully.')
 
       //clear form
-      setAdoptionForm(
-      {
+      setAdoptionForm({
         adoptionMessage: '',
       })
-    }
-
-    //if request fails
-    catch(error)
-    {
-      if(error.response && error.response.data && error.response.data.error)
-      {
+    } catch (error) {
+      //if request fails
+      if (error.response && error.response.data && error.response.data.error) {
         setStatusMessage(error.response.data.error)
-      }
-      else
-      {
+      } else {
         setStatusMessage('Failed to send adoption request.')
       }
     }
@@ -76,17 +64,14 @@ function AdoptionForm({ petId })
   }
 
   //jsx ui
-  return(
+  return (
     <div className="adoption-page">
       <div className="adoption-card">
         {/* left side */}
         <div className="adoption-left">
           <div>
             <h2>Give a Pet a Home</h2>
-            <p>
-              Send an adoption request and help
-              a pet find a loving family.
-            </p>
+            <p>Send an adoption request and help a pet find a loving family.</p>
           </div>
         </div>
         {/* right side */}
@@ -99,11 +84,9 @@ function AdoptionForm({ petId })
               name="message"
               placeholder="Write why you want to adopt this pet..."
               value={adoptionForm.adoptionMessage}
-
               //update adoption message
               onChange={(e) =>
-                setAdoptionForm(
-                {
+                setAdoptionForm({
                   ...adoptionForm,
                   adoptionMessage: e.target.value,
                 })
@@ -116,9 +99,7 @@ function AdoptionForm({ petId })
           </form>
 
           {/* feedback message */}
-          <p className="adoption-message">
-            {statusMessage}
-          </p>
+          <p className="adoption-message">{statusMessage}</p>
         </div>
       </div>
     </div>

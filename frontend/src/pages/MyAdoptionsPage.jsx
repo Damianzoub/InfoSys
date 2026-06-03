@@ -1,38 +1,40 @@
-import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
-import { getUserAdoptions } from '../services/adoptionService';
-import './MyAdoptionsPage.css';
+import { useEffect, useState } from 'react'
+import { Link } from 'react-router-dom'
+import { getUserAdoptions } from '../services/adoptionService'
+import './MyAdoptionsPage.css'
 
 const STATUS_LABEL = {
   pending: 'Εκκρεμεί',
   approved: 'Εγκρίθηκε',
   rejected: 'Απορρίφθηκε',
-};
+}
 
 export default function MyAdoptionsPage() {
-  const [adoptions, setAdoptions] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState('');
+  const [adoptions, setAdoptions] = useState([])
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState('')
 
   useEffect(() => {
-    let isCancelled = false;
+    let isCancelled = false
 
     async function load() {
       try {
-        setLoading(true);
-        setError('');
-        const data = await getUserAdoptions();
-        if (!isCancelled) setAdoptions(data);
+        setLoading(true)
+        setError('')
+        const data = await getUserAdoptions()
+        if (!isCancelled) setAdoptions(data)
       } catch {
-        if (!isCancelled) setError('Αποτυχία φόρτωσης αιτήσεων.');
+        if (!isCancelled) setError('Αποτυχία φόρτωσης αιτήσεων.')
       } finally {
-        if (!isCancelled) setLoading(false);
+        if (!isCancelled) setLoading(false)
       }
     }
 
-    load();
-    return () => { isCancelled = true; };
-  }, []);
+    load()
+    return () => {
+      isCancelled = true
+    }
+  }, [])
 
   if (loading) {
     return (
@@ -40,7 +42,7 @@ export default function MyAdoptionsPage() {
         <h1 className="page-title">Οι αιτήσεις μου</h1>
         <p className="loading-text">Φόρτωση...</p>
       </div>
-    );
+    )
   }
 
   return (
@@ -52,7 +54,9 @@ export default function MyAdoptionsPage() {
       {adoptions.length === 0 ? (
         <div className="empty-state">
           <p className="empty-text">Δεν έχεις υποβάλει αιτήσεις υιοθεσίας ακόμα.</p>
-          <Link to="/pets" className="btn-browse">Αναζήτηση ζώων</Link>
+          <Link to="/pets" className="btn-browse">
+            Αναζήτηση ζώων
+          </Link>
         </div>
       ) : (
         <div className="adoptions-list">
@@ -74,13 +78,11 @@ export default function MyAdoptionsPage() {
                   {new Date(a.created_at).toLocaleDateString('el-GR')}
                 </p>
               </div>
-              <span className={`status-badge ${a.status}`}>
-                {STATUS_LABEL[a.status]}
-              </span>
+              <span className={`status-badge ${a.status}`}>{STATUS_LABEL[a.status]}</span>
             </div>
           ))}
         </div>
       )}
     </div>
-  );
+  )
 }

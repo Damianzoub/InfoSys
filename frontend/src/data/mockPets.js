@@ -146,7 +146,7 @@ export const mockPets = [
     primary_photo: null,
     shelter_name: 'Καταφύγιο Χανίων',
   },
-];
+]
 
 // Detailed data per pet — shaped like /api/pets/:id response
 export const mockPetDetails = {
@@ -318,4 +318,4 @@ export const mockPetDetails = {
     photos: [],
     created_at: '2026-05-06T09:50:00Z',
   },
-};
+}
