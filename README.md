@@ -1,4 +1,5 @@
 # Πλατφόρμα Υιοθεσίας Κατοικιδίων (Pet Adoption Platform)
+[![CI/CD Pipeline](https://github.com/Damianzoub/InfoSys/actions/workflows/pipeline.yml/badge.svg)](https://github.com/Damianzoub/InfoSys/actions/workflows/pipeline.yml)
 
 Πανεπιστημιακό ομαδικό project για το μάθημα  
 **Μεθοδολογίες Ανάπτυξης Πληροφοριακών Συστημάτων**
@@ -101,11 +102,9 @@
 ## Pipeline Έλεγχοι
 Το CI pipeline εκτελεί:
 - Backend Unit & Integration Tests
-- Coverage Report Generation
 - ESLint Code Quality Checks
 - Prettier Formatting Validation
 - Frontend Build Validation
-- Docker Compose Configuration Validation
 
 ## Code Quality
 Για τη διασφάλιση ποιότητας κώδικα χρησιμοποιούνται:
@@ -213,6 +212,8 @@ curl -X POST http://localhost:8000/api/auth/register \
 
 ```text
 InfoSys/
+├── .github\workflows
+│       └── pipeline.yml
 ├── backend/
 │   ├── src/
 │   │   ├── app.js              # Express app + middleware
