@@ -1,4 +1,4 @@
-# Ατομικό Παραδοτέο Sprint 3
+# Ατομικό Παραδοτέο Sprint 4
 
 **Μάθημα:** Μεθοδολογίες Ανάπτυξης Πληροφοριακών Συστημάτων  
 **Project:** Pet Adoption Platform  
@@ -16,37 +16,34 @@
 
 ## 1. Sprint Planning & Κατανομή Εργασιών
 
-### 1.1 Επιλεγμένα User Stories
+### 1.1 Στόχοι Sprint 4
 
-Στο Sprint 3 επιλέχθηκαν User Stories από το Product Backlog της 2ης εργασίας, με στόχο να υλοποιηθεί ένα λειτουργικό πληροφοριακό σύστημα υιοθεσίας κατοικιδίων.
-
-| User Story | Περιγραφή | Κριτήριο Ολοκλήρωσης | Υλοποιήθηκε |
-|---|---|---|---|
-| US1.1 | Εγγραφή χρήστη | Ο χρήστης μπορεί να δημιουργήσει λογαριασμό | `[Ναι/Όχι]` |
-| US1.2 | Σύνδεση χρήστη | Ο χρήστης μπορεί να συνδεθεί και να λάβει session/JWT | `[Ναι/Όχι]` |
-| US2.1 | Λίστα κατοικιδίων | Εμφανίζονται διαθέσιμα ζώα προς υιοθεσία | `[Ναι/Όχι]` |
-| US2.2 | Φίλτρα αναζήτησης | Ο χρήστης φιλτράρει με είδος, ηλικία, φύλο, τοποθεσία | `[Ναι/Όχι]` |
-| US2.3 | Προφίλ ζώου | Εμφανίζονται πλήρη στοιχεία ζώου και καταφυγίου | `[Ναι/Όχι]` |
-| US3.1 | Αίτηση υιοθεσίας | Ο χρήστης υποβάλλει αίτηση για ζώο | `[Ναι/Όχι]` |
-| US3.2 | Επιβεβαίωση αίτησης | Εμφανίζεται μήνυμα επιτυχούς υποβολής | `[Ναι/Όχι]` |
-| US4.1 | Dashboard καταφυγίου | Το καταφύγιο βλέπει αιτήσεις για τα ζώα του | `[Ναι/Όχι]` |
-| US4.2 | Έγκριση/Απόρριψη | Το καταφύγιο εγκρίνει ή απορρίπτει αίτηση | `[Ναι/Όχι]` |
-| US5.1 | Admin στατιστικά | Ο διαχειριστής βλέπει βασικά στατιστικά | `[Ναι/Όχι]` |
-| US5.2 | Admin αναφορά | Ο διαχειριστής βλέπει αναλυτική αναφορά | `[Ναι/Όχι]` |
+Στόχος του Sprint 4 ήταν η εφαρμογή πρακτικών DevOps πάνω στο υπάρχον πληροφοριακό σύστημα που αναπτύχθηκε στο Sprint 3. Οι βασικοί στόχοι ήταν:
+- Αυτοματοποιημένος έλεγχος (Automated Testing)
+- Continuous Integration (CI)
+- Continuous Delivery / Deployment (CD)
+- Code Quality & Linting
+- Dockerization της εφαρμογής
+- Ενημέρωση τεκμηρίωσης και αποθετηρίου
 
 ### 1.2 Κατανομή Εργασιών Ομάδας
 
-| Μέλος | ΑΜ | Ρόλος | Κύρια ευθύνη | Ενδεικτικά tasks |
-|---|---|---|---|---|
-| Δαμιανός Ζούμπος | Ε22056 | Scrum Master | Backend Auth, συντονισμός | DB schema, auth backend, integration |
-| Κλαυδιανός Άγγελος | Ε22081 | Team Member | Frontend Pet Browse | Pet list, filters, pet profile |
-| Αλεσία Γκίνι | Ε22043 | Team Member | Frontend Auth UI & Profile | Register/Login UI, profile page |
-| Χρήστος Μπινάς | Ε22114 | Team Member | Backend Pets & Shelter | Pet endpoints, upload, shelter endpoints |
-| Ιωάννης Ταχμαζίδης | Ε22164 | Team Member | Backend Adoption & Admin | Adoption flow, approval logic, admin APIs |
+| Μέλος | ΑΜ | Ρόλος | Κύρια ευθύνη |
+|---|---|---|---|
+
+| Δαμιανός Ζούμπος | Ε22056 | Team Member | (Continuous Delivery/Deployment), Docker Images, Docker Compose, Deployment σε Railway|
+
+| Κλαυδιανός Άγγελος | Ε22081 | Team Member | Αυτοματοποιημένος Έλεγχος (Automated Testing), Unit Tests, Integration Tests, Test Coverage |
+
+| Αλεσία Γκίνι | Ε22043 | Team Member |Διασφάλιση Ποιότητας Κώδικα (Code Quality), ESLint, Prettier, Frontend Validation, README Updates |
+
+| Χρήστος Μπινάς | Ε22114 | Team Member | Σχεδιασμός & Υλοποίηση CI/CD Pipeline, Workflow Design, Pipeline Stages, GitHub Actions Configuration |
+
+| Ιωάννης Ταχμαζίδης | Ε22164 | Team Member | Στρατηγική DevOps & Διαχείριση Εκδόσεων, GitHub Actions, Branching Strategy, Version Control|
 
 ### 1.3 Προσωπική Συνεισφορά
 
-| Task ID / User Story | Τι υλοποίησα προσωπικά | Αρχεία/ενότητες κώδικα | Κατάσταση |
+| Task | Τι υλοποίησα προσωπικά | Αρχεία/ενότητες κώδικα | Κατάσταση |
 |---|---|---|---|
 | `[π.χ. PB27 / US3.1]` | `[Περιγραφή εργασίας]` | `[π.χ. backend/src/routes/adoptions.js]` | `[Ολοκληρώθηκε/Μερικώς]` |
 | `[Task]` | `[Περιγραφή]` | `[Αρχεία]` | `[Κατάσταση]` |
@@ -56,40 +53,16 @@
 ## 2. Αρχιτεκτονική & Τεχνολογική Στοίβα
 
 ### 2.1 Τεχνολογίες που χρησιμοποιήθηκαν
+Tεχνολογία|	Ρόλος στο σύστημα
 
-| Layer | Τεχνολογία | Ρόλος στο σύστημα |
-|---|---|---|
-| Frontend | React, React Router, Axios | UI, πλοήγηση, επικοινωνία με REST API |
-| Backend | Node.js, Express | REST endpoints και business logic |
-| Database | PostgreSQL | Αποθήκευση χρηστών, ζώων, αιτήσεων, καταφυγίων |
-| Authentication | JWT, bcryptjs | Σύνδεση, ρόλοι, προστατευμένα routes |
-| File Upload | multer | Ανέβασμα φωτογραφιών ζώων |
-| DevOps | Docker, Docker Compose, GitHub Actions | Τοπική εκτέλεση και βασική CI/CD υποδομή |
-
-### 2.2 Σύνδεση με DFD/HIPO διαγράμματα
-
-Οι τεχνολογικές επιλογές υποστηρίζουν τα βασικά processes του DFD Level 1 και τα αντίστοιχα HIPO modules:
-
-| Process / Module | Υλοποίηση στο project | Περιγραφή |
-|---|---|---|
-| User Registration / Login | `/api/auth`, Auth UI | Δημιουργία λογαριασμού, σύνδεση, JWT |
-| Pet Search | `/api/pets`, Pet List UI | Ανάκτηση ζώων και αναζήτηση με φίλτρα |
-| Pet Profile | `/api/pets/:id`, Pet Profile UI | Αναλυτική προβολή ζώου και καταφυγίου |
-| Adoption Request | `/api/adoptions`, Adoption Form UI | Υποβολή και παρακολούθηση αιτήσεων |
-| Shelter Management | `/api/adoptions/shelter`, Shelter Dashboard | Έλεγχος αιτήσεων από καταφύγια |
-| Admin Control | `/api/admin/stats`, `/api/admin/report` | Στατιστικά και αναφορές συστήματος |
-
-### 2.3 Συνοπτική αρχιτεκτονική ροή
-
-```text
-React Frontend
-  -> Axios HTTP requests
-  -> Express REST API
-  -> PostgreSQL database
-  -> JSON responses back to UI
-```
-
----
+- GitHub Actions|	Εκτέλεση CI/CD pipeline
+- Docker|	Containerization εφαρμογής
+- Docker Compose|	Multi-container orchestration
+- Railway|	Deployment
+- ESLint|	Στατικός έλεγχος JavaScript / React κώδικα
+- Prettier|	Ενιαία μορφοποίηση κώδικα
+- Git / GitHub|	Version control και συνεργασία ομάδας
+- Markdown|	Τεκμηρίωση README και CI/CD documentation
 
 ## 3. Τεκμηρίωση Ανάπτυξης με Coding Agents
 
@@ -151,80 +124,33 @@ React Frontend
 
 ## 4. Ιχνηλασιμότητα & Κριτήρια Ολοκλήρωσης
 
-### 4.1 Πίνακας αντιστοίχισης User Stories με αποδείξεις
+### 4.1 Πίνακας αντιστοίχισης  με αποδείξεις
 
-| User Story | Υλοποίηση | Απόδειξη / Screenshot | Σχόλια |
-|---|---|---|---|
-| US1.1 Register | `[Αρχείο/route/component]` | `docs/screenshots/US1.1-register.png` | `[Σχόλιο]` |
-| US1.2 Login | `[Αρχείο/route/component]` | `docs/screenshots/US1.2-login.png` | `[Σχόλιο]` |
-| US2.1 Pet List | `[Αρχείο/route/component]` | `docs/screenshots/US2.1-pet-list.png` | `[Σχόλιο]` |
-| US2.2 Pet Filters | `[Αρχείο/route/component]` | `docs/screenshots/US2.2-pet-filters.png` | `[Σχόλιο]` |
-| US2.3 Pet Profile | `[Αρχείο/route/component]` | `docs/screenshots/US2.3-pet-profileV2.png` | `[Σχόλιο]` |
-| US3.1 Adoption Form | `[Αρχείο/route/component]` | `docs/screenshots/US3.1-adoption-form.png` | `[Σχόλιο]` |
-| US3.2 Adoption Success | `[Αρχείο/route/component]` | `docs/screenshots/US3.2-adoption-success.png` | `[Σχόλιο]` |
-| US4.1 Shelter Requests | `[Αρχείο/route/component]` | `docs/screenshots/US4.1-shelter-requests.png` | `[Σχόλιο]` |
-| US4.2 Shelter Approval | `[Αρχείο/route/component]` | `docs/screenshots/US4.2-shelter-approved.png` | `[Σχόλιο]` |
-| US5.1 Admin Stats | `[Αρχείο/route/component]` | `docs/screenshots/US5.1-admin-stats.png` | `[Σχόλιο]` |
-| US5.2 Admin Report | `[Αρχείο/route/component]` | `docs/screenshots/US5.2-admin-report.png` | `[Σχόλιο]` |
+Ενέργεια|Υλοποίηση|Απόδειξη|Screenshot|Σχόλια
+T1|	DevOps Strategy & Branching Strategy             |screenshot|Σχόλια
+T2|	Automated Testing                                |screenshot|Σχόλια
+T3|	CI/CD Pipeline                                   |screenshot|Σχόλια
+T4|	Continuous Delivery / Deployment                 |screenshot|Σχόλια
+T5|	Code Quality – ESLint / Prettier and README Badge|screenshot|Σχόλια
 
 ### 4.2 Screenshots εφαρμογής
 
-> Για το PDF, βάλε τις εικόνες κάτω από κάθε υποενότητα. Αν το αρχείο Markdown μετατραπεί με εργαλείο που υποστηρίζει εικόνες, κράτησε την παρακάτω μορφή.
+Για την τελική μορφή του PDF μπορούν να προστεθούν τα παρακάτω screenshots:
+GitHub Actions Pipeline
+README CI/CD Badge
+Pipeline Workflow File
+Code Quality Checks
+CI/CD Documentation
 
-#### US1.1 — Εγγραφή χρήστη
-
-![US1.1 Register](docs/screenshots/US1.1-register.png)
-
-#### US1.2 — Σύνδεση χρήστη
-
-![US1.2 Login](docs/screenshots/US1.2-login.png)
-
-#### US2.1 — Λίστα κατοικιδίων
-
-![US2.1 Pet List](docs/screenshots/US2.1-pet-list.png)
-
-#### US2.2 — Φίλτρα αναζήτησης
-
-![US2.2 Pet Filters](docs/screenshots/US2.2-pet-filters.png)
-
-#### US2.3 — Προφίλ ζώου
-
-![US2.3 Pet Profile](docs/screenshots/US2.3-pet-profileV2.png)
-
-#### US3.1 — Φόρμα αίτησης υιοθεσίας
-
-![US3.1 Adoption Form](docs/screenshots/US3.1-adoption-form.png)
-
-#### US3.2 — Επιβεβαίωση αίτησης
-
-![US3.2 Adoption Success](docs/screenshots/US3.2-adoption-success.png)
-
-#### US4.1 — Αιτήσεις καταφυγίου
-
-![US4.1 Shelter Requests](docs/screenshots/US4.1-shelter-requests.png)
-
-#### US4.2 — Έγκριση/Απόρριψη αίτησης
-
-![US4.2 Shelter Approved](docs/screenshots/US4.2-shelter-approved.png)
-
-#### US5.1 — Admin στατιστικά
-
-![US5.1 Admin Stats](docs/screenshots/US5.1-admin-stats.png)
-
-#### US5.2 — Admin αναφορά
-
-![US5.2 Admin Report](docs/screenshots/US5.2-admin-report.png)
 
 ### 4.3 Έλεγχοι που εκτελέστηκαν
-
-| Έλεγχος | Εντολή / Διαδικασία | Αποτέλεσμα |
-|---|---|---|
-| Frontend build | `cd frontend && npm run build` | `[Πέρασε/Απέτυχε + σχόλιο]` |
-| Frontend lint | `cd frontend && npm run lint` | `[Πέρασε/Απέτυχε + σχόλιο]` |
-| Backend syntax check | `node --check ...` | `[Πέρασε/Απέτυχε + σχόλιο]` |
-| Manual E2E flow | Register → Login → Search → Adoption → Approval → Admin report | `[Πέρασε/Απέτυχε + σχόλιο]` |
-
----
+Έλεγχος	Εντολή | Διαδικασία	Αποτέλεσμα
+Frontend build	cd frontend && npm run build          |επιβεβαιώθηκε μέσω pipeline ή τοπικού ελέγχου
+Frontend lint	cd frontend && npm run lint             |επιβεβαιώθηκε μέσω pipeline ή τοπικού ελέγχου
+Frontend formatting check	cd frontend && npm run format:check   |επιβεβαιώθηκε μέσω pipeline ή τοπικού ελέγχου
+Backend tests	cd backend && npm test                  |Εκτελούνται μέσα στο GitHub Actions pipeline
+CI Pipeline validation	GitHub Actions Workflow	      |Το pipeline εκτελείται αυτόματα στο GitHub
+README badge validation	Έλεγχος στο GitHub repository |Το badge εμφανίζει την κατάσταση του pipeline
 
 ## 5. Sprint Retrospective
 

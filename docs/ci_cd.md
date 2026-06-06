@@ -32,42 +32,6 @@
 - validation του docker-compose
 - προετοιμασία για deployment
 
----
-
-# Pipeline Checks
-Το CI/CD pipeline του εκτελεί αυτόματα:
-
-- Backend dependency installation
-- Backend tests
-- Frontend dependency installation
-- ESLint code quality validation
-- Prettier formatting validation
-- Frontend build validation
-- Deployment simulation
-
-Με αυτόν τον τρόπο διασφαλίζεται ότι ο κώδικας είναι λειτουργικός και ακολουθεί τα πρότυπα ποιότητας της ομάδας.
-
-# Code Quality
-
-Για τον έλεγχο ποιότητας κώδικα χρησιμοποιούνται:
-
--ESLint
--Prettier
--GitHub Actions
-
-Το ESLint εντοπίζει πιθανά προβλήματα στον JavaScript/React κώδικα.
-Το Prettier διασφαλίζει ενιαία μορφοποίηση σε όλα τα αρχεία του project.
-Οι έλεγχοι αυτοί εκτελούνται αυτόματα μέσα από το CI/CD pipeline.
-
-# Repository
-
-Repository URL:
-https://github.com/Damianzoub/InfoSys
-
-Το repository περιλαμβάνει:
-- GitHub Actions Workflows
-- Test Suite
-- ESLint Configuration
-- Prettier Configuration
-- Docker Configuration
-- Project Documentation
+--- 
+# Important Rules 
+Δεν επιτρέπεται **direct push to main branch** changes should happen in **sub-branch** and later do a pull request in order for the other person to see before merging 
