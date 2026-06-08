@@ -32,10 +32,6 @@
 - validation του docker-compose
 - προετοιμασία για deployment
 
----
-
-# Important Rules
-
-Δεν επιτρέπεται **direct push to main branch**
-
-changes should happen in **sub-branch** and later do a pull request in order for the other person to see before merging
+--- 
+# Important Rules 
+Δεν επιτρέπεται **direct push to main branch** changes should happen in **sub-branch** and later do a pull request in order for the other person to see before merging 

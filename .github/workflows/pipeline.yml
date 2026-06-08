@@ -35,6 +35,18 @@ jobs:
         run: |
           npm install
           npm run build
+      
+      - name: 🔍 Run Frontend Lint
+        working-directory: ./frontend
+        run: npm run lint
+
+      - name: 🎨 Check Frontend Formatting
+        working-directory: ./frontend
+        run: npm run format:check
+
+      - name: 🏗️ Build Frontend
+        working-directory: ./frontend
+        run: npm run build
 
   deploy:
     needs: build-and-test
