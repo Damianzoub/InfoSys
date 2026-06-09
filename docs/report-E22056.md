@@ -113,7 +113,7 @@ npm run test:ci       # με coverage report (χρησιμοποιείται σ�
   run: npm test
 ```
 
-> [Εισαγωγή Screenshot: GitHub Actions — passing tests στο build-and-test job]
+![CI/CD Pipeline — passing tests](screenshots/ci-cd.png)
 
 ---
 
@@ -181,7 +181,7 @@ Push / PR
 
 ### 3.3 Αποτελέσματα Pipeline
 
-> [Εισαγωγή Screenshot: `this.png` — Επιτυχής εκτέλεση CI/CD pipeline με build-and-test (25s) και deploy (2s) jobs]
+![Επιτυχής εκτέλεση CI/CD pipeline](screenshots/ci-cd.png)
 
 Το pipeline ολοκληρώνεται σε **~33 δευτερόλεπτα** συνολικά.
 
@@ -275,11 +275,11 @@ docker compose up --build
 
 Το `docker-compose.yml` εκκινεί και τα τρία services με αυτόματη σειρά εκκίνησης (postgres → backend → frontend) και health checks.
 
-> [Εισαγωγή Screenshot: Railway dashboard — backend και frontend services με status Active]
+![Railway dashboard — services Active](screenshots/railway.png)
 
-> [Εισαγωγή Screenshot: Frontend live στο browser — https://infosys-production-e27a.up.railway.app]
+![Frontend live στο browser](screenshots/frontend.png)
 
-> [Εισαγωγή Screenshot: Backend /health endpoint — `{"status":"ok"}`]
+![Backend /health endpoint](screenshots/health.png)
 
 ---
 
@@ -312,7 +312,7 @@ npm run format:check   # έλεγχος (χρησιμοποιείται στο C
 
 Τα quality checks εκτελούνται αυτόματα μέσω του `pipeline.yml`. Αν ο κώδικας δεν πληροί τα πρότυπα, το pipeline αποτυγχάνει και ο κώδικας δεν μπορεί να ενσωματωθεί στο `main`.
 
-> [Εισαγωγή Screenshot: GitHub Actions — lint και format:check steps πράσινα]
+![ESLint & Prettier — pipeline steps πράσινα](screenshots/eslint-prettier-ci/04-prettier-lint-build-passed.png)
 
 ### 5.3 Διαχείριση Secrets
 
@@ -334,7 +334,7 @@ https://github.com/Damianzoub/InfoSys
 
 [![Pet Adoption CI/CD Pipeline](https://github.com/Damianzoub/InfoSys/actions/workflows/pipeline.yml/badge.svg)](https://github.com/Damianzoub/InfoSys/actions/workflows/pipeline.yml)
 
-> [Εισαγωγή Screenshot: README.md στο GitHub με το pipeline badge]
+![Pipeline badge στο README](screenshots/badge.png)
 
 **Δομή αρχείων CI/CD στο αποθετήριο:**
 ```
