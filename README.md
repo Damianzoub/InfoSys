@@ -1,145 +1,160 @@
-# Διασφάλιση Ποιότητας Κώδικα (Code Quality & Linting) – E22043
+# Pet Adoption Platform 🐾
 
-## Επισκόπηση
+[![Pet Adoption CI/CD Pipeline](https://github.com/Damianzoub/InfoSys/actions/workflows/pipeline.yml/badge.svg)](https://github.com/Damianzoub/InfoSys/actions/workflows/pipeline.yml)
 
-Στόχος ήταν να διασφαλιστεί ότι ο frontend κώδικας ακολουθεί κοινά πρότυπα μορφοποίησης και ποιότητας, ώστε να μειωθούν τα σφάλματα, να βελτιωθεί η αναγνωσιμότητα του κώδικα και να διευκολυνθεί η συνεργασία μεταξύ των μελών της ομάδας.
-
-Οι βασικές εργασίες περιλάμβαναν:
-
-- Ρύθμιση και έλεγχο του ESLint
-- Ρύθμιση και έλεγχο του Prettier
-- Επαλήθευση των ελέγχων ποιότητας μέσα από το GitHub Actions pipeline
-- Ενημέρωση του README
-- Δημιουργία προσωπικής τεκμηρίωσης για το Code Quality / Linting
+Ακαδημαϊκό project για το μάθημα **Μεθοδολογίες Ανάπτυξης Πληροφοριακών Συστημάτων** — Sprint 3.  
+Πλήρης web εφαρμογή υιοθεσίας κατοικίδιων ζώων με CI/CD pipeline και cloud deployment.
 
 ---
 
-## Εργαλεία που Χρησιμοποιήθηκαν
+## 🌐 Live Deployment
 
-### ESLint
-
-Το ESLint χρησιμοποιήθηκε για στατικό έλεγχο του JavaScript και React κώδικα.
-
-Βασικοί στόχοι:
-
-- Εντοπισμός αχρησιμοποίητων imports και μεταβλητών
-- Εντοπισμός πιθανών λαθών στον κώδικα
-- Τήρηση κοινών προγραμματιστικών προτύπων
-- Βελτίωση της συντηρησιμότητας του έργου
-
-Εντολή εκτέλεσης:
-npm run lint
+| Service | URL |
+|---|---|
+| **Frontend** | https://infosys-production-e27a.up.railway.app |
+| **Backend API** | https://pet-adoption-frontend-production-c743.up.railway.app |
+| **Health Check** | https://pet-adoption-frontend-production-c743.up.railway.app/health |
 
 ---
 
-### Prettier
+## 👥 Ομάδα
 
-Το Prettier χρησιμοποιήθηκε για την αυτόματη μορφοποίηση του κώδικα.
-
-Βασικοί στόχοι:
-
-- Ενιαία μορφοποίηση αρχείων
-- Ομοιόμορφη χρήση εσοχών
-- Συνεπής χρήση εισαγωγικών
-- Βελτίωση αναγνωσιμότητας κώδικα
-
-Εντολές εκτέλεσης:
-npm run format
-npm run format:check
-
-Αρχεία ρυθμίσεων:
-.prettierrc
-.prettierignore
-
+| Όνομα | ΑΜ | Ρόλος | Branch |
+|---|---|---|---|
+| Δαμιανός Ζούμπος | Ε22056 | Scrum Master | `feature/auth` |
+| Κλαυδιανός Άγγελος | Ε22081 | Team Member | `feature/pet-browse` |
+| Αλεσία Γκίνι | Ε22043 | Team Member | `feature/auth-ui` |
+| Χρήστος Μπινάς | Ε22114 | Team Member | `feature/shelter` |
+| Ιωάννης Ταχμαζίδης | Ε22164 | Team Member | `feature/adoption-admin` |
 
 ---
 
-## Σύνδεση με το CI/CD Pipeline
+## 🛠 Tech Stack
 
-Οι έλεγχοι ποιότητας του frontend επαληθεύτηκαν μέσα από το GitHub Actions workflow του έργου, ώστε να διασφαλίζεται ότι ο κώδικας πληροί τα πρότυπα ποιότητας πριν την ενσωμάτωση αλλαγών.
-
-Το pipeline εκτελεί:
-
-- Εγκατάσταση frontend dependencies
-- Έλεγχο ESLint
-- Έλεγχο Prettier
-- Frontend build validation
-
-Με αυτόν τον τρόπο η ποιότητα του frontend κώδικα ελέγχεται αυτόματα στο πλαίσιο της διαδικασίας Continuous Integration.
-
-Αρχείο workflow:
-.github/workflows/pipeline.yml
-
+| Layer | Technology |
+|---|---|
+| Frontend | React 18 + React Router + Axios + Vite |
+| Backend | Node.js + Express |
+| Database | PostgreSQL 16 |
+| Auth | JWT + bcrypt |
+| DevOps | Docker + Docker Compose + GitHub Actions |
+| Hosting | Railway |
+| Code Quality | ESLint + Prettier |
 
 ---
 
-## Ενημέρωση README
+## 🔄 CI/CD Pipeline
 
-Το README του έργου ενημερώθηκε ώστε να περιλαμβάνει:
+The pipeline runs automatically on every push to `main` and on Pull Requests.
 
-- Πληροφορίες για το CI/CD pipeline
-- Πληροφορίες για τα εργαλεία ESLint και Prettier
-- Πληροφορίες για το Secrets Management
-- GitHub Actions Status Badge
+**Stages:**
+1. **Install & Test** — `npm ci` + Jest (unit & integration tests with coverage)
+2. **Frontend Build** — `npm run build` (Vite production build)
+3. **Lint** — ESLint checks for code errors
+4. **Format Check** — Prettier enforces consistent code style
+5. **Deploy** — Railway auto-deploys from `main` on every push
 
-Το badge εμφανίζει την κατάσταση του pipeline και επιτρέπει γρήγορη επιβεβαίωση της επιτυχούς εκτέλεσης των αυτοματοποιημένων ελέγχων.
-
----
-
-## Διαδικασία Ελέγχου
-
-### Έλεγχος Ποιότητας Κώδικα
-npm run lint
-
-
-Σκοπός:
-
-- Εντοπισμός προβλημάτων στον frontend κώδικα
-- Έλεγχος τήρησης των κανόνων ESLint
+Pipeline config: [`.github/workflows/pipeline.yml`](.github/workflows/pipeline.yml)
 
 ---
 
-### Έλεγχος Μορφοποίησης
-npm run format:check
+## 🚀 Local Development
 
-Σκοπός:
+### Prerequisites
+- Docker & Docker Compose
+- Node.js 22+
 
-- Επιβεβαίωση σωστής μορφοποίησης
-- Έλεγχος συμμόρφωσης με τα πρότυπα της ομάδας
+### Run with Docker Compose
+
+```bash
+git clone https://github.com/Damianzoub/InfoSys.git
+cd InfoSys
+
+cp backend/.env.example backend/.env
+# Edit backend/.env with your values
+
+docker compose up --build
+```
+
+| Service | URL |
+|---|---|
+| Frontend | http://localhost:5173 |
+| Backend API | http://localhost:8000 |
+| PostgreSQL | localhost:5432 |
+
+### Initialize the database
+
+```bash
+# Run once after first docker compose up
+docker compose exec backend node scripts/db-init.js
+
+# Optional: seed with sample data
+docker compose exec backend node scripts/seed.js
+```
 
 ---
 
-### Έλεγχος Build
-npm run build
+## 🧪 Running Tests
 
-
-Σκοπός:
-
-- Επιβεβαίωση επιτυχούς παραγωγής build
-- Εντοπισμός πιθανών προβλημάτων πριν την ενσωμάτωση αλλαγών
-
----
-
-## Αποτελέσματα
-
-Η υλοποίηση παρείχε:
-
-- Αυτοματοποιημένο έλεγχο ποιότητας κώδικα
-- Ενιαία μορφοποίηση σε όλα τα frontend αρχεία
-- Βελτιωμένη αναγνωσιμότητα κώδικα
-- Έγκαιρο εντοπισμό προβλημάτων
-- Καλύτερη σύνδεση του frontend validation με τη διαδικασία CI/CD
+```bash
+cd backend
+npm ci
+npm test              # run tests
+npm run test:ci       # run with coverage (used in CI)
+```
 
 ---
 
-## Γνώσεις και Εμπειρία που Αποκτήθηκαν
+## 📁 Project Structure
 
-Μέσα από την υλοποίηση αυτής της εργασίας απέκτησα πρακτική εμπειρία σε:
+```
+InfoSys/
+├── .github/workflows/
+│   └── pipeline.yml          # CI/CD pipeline
+├── backend/
+│   ├── src/
+│   │   ├── app.js
+│   │   ├── server.js
+│   │   ├── db/
+│   │   │   ├── index.js
+│   │   │   └── schema.sql
+│   │   ├── middleware/
+│   │   └── routes/
+│   ├── scripts/
+│   │   ├── db-init.js
+│   │   └── seed.js
+│   ├── Dockerfile
+│   └── railway.toml
+├── frontend/
+│   ├── src/
+│   ├── Caddyfile
+│   └── package.json
+├── docs/
+│   ├── api-spec.md
+│   ├── continuous-delivery.md
+│   ├── code-quality-E22043.md
+│   ├── devops-strategy-E22164.md
+│   └── prompts-E22056.md
+├── docker-compose.yml
+└── render.yaml
+```
 
-- Χρήση και ρύθμιση ESLint
-- Χρήση και ρύθμιση Prettier
-- CI/CD Pipelines
-- Διαχείριση εκδόσεων με Git και GitHub
-- Τεχνική τεκμηρίωση αλλαγών σε Markdown
+---
 
-Η διαδικασία ανέδειξε τη σημασία των αυτοματοποιημένων ελέγχων ποιότητας σε ομαδικά έργα ανάπτυξης λογισμικού και τη συμβολή τους στη μείωση λαθών πριν την ενσωμάτωση νέου κώδικα.
+## 🔑 Test Accounts (after seeding)
+
+| Email | Password | Ρόλος | Τι κάνει |
+|---|---|---|---|
+| `shelter1@test.com` | `password123` | shelter | Διαχείριση ζώων, έγκριση/απόρριψη αιτήσεων |
+| `shelter2@test.com` | `password123` | shelter | Διαχείριση ζώων, έγκριση/απόρριψη αιτήσεων |
+| *(εγγραφή μέσω UI)* | — | user | Αναζήτηση ζώων, υποβολή αιτήσεων υιοθεσίας |
+
+---
+
+## 📄 Documentation
+
+- [API Specification](docs/api-spec.md)
+- [Continuous Delivery](docs/continuous-delivery.md)
+- [CI/CD Strategy](docs/ci_cd.md)
+- [Code Quality — E22043](docs/code-quality-E22043.md)
+- [DevOps Strategy — E22164](docs/devops-strategy-E22164.md)
